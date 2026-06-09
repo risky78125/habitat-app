@@ -1,0 +1,136 @@
+<view class="page">
+  <!-- Login overlay -->
+  <view wx:if="{{loginFailed}}" class="login-overlay">
+    <view class="login-card">
+      <text class="login-emoji">🔐</text>
+      <text class="login-title">需要登录</text>
+      <text class="login-desc">登录后即可查看个人信息</text>
+      <view class="login-btn" bindtap="onRetryLogin">
+        <text class="login-btn-text">微信登录</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- Profile setup modal -->
+  <profile-setup show="{{showProfileSetup}}" bind:done="onProfileSetupDone" />
+
+  <!-- Loading -->
+  <view wx:if="{{loading && !loginFailed}}" class="loading-wrap">
+    <view class="loading-dots">
+      <view class="dot"></view>
+      <view class="dot"></view>
+      <view class="dot"></view>
+    </view>
+  </view>
+
+  <block wx:if="{{!loading && !loginFailed && userInfo}}">
+    <view class="hero" style="padding-top: {{statusBarHeight + 20}}px;">
+      <view class="hero-ambient hero-ambient-1"></view>
+      <view class="hero-ambient hero-ambient-2"></view>
+
+      <view class="hero-content">
+        <view class="user-row">
+          <view class="user-avatar-wrap">
+            <view class="user-avatar">
+              <image wx:if="{{userInfo.avatarUrl}}" class="user-avatar-img" src="{{userInfo.avatarUrl}}" mode="aspectFill" />
+              <text wx:else class="user-avatar-text">{{avatarInitial}}</text>
+            </view>
+            <view class="user-badge">
+              <text class="user-badge-icon">⚡</text>
+            </view>
+          </view>
+          <view class="user-info">
+            <text class="user-name">{{userInfo.nickname}}</text>
+            <view class="user-tag">
+              <text class="user-tag-text">栖息地用户</text>
+            </view>
+          </view>
+          <view class="edit-btn" bindtap="onEditProfile">
+            <text class="edit-icon">✎</text>
+          </view>
+        </view>
+
+        <view class="token-card">
+          <view class="token-left">
+            <text class="token-label">星力余额</text>
+            <text class="token-value">{{starPowerBalance}}</text>
+          </view>
+          <view class="token-actions">
+            <view class="checkin-btn {{hasCheckedIn ? 'checked' : ''}}" bindtap="onCheckin">
+              <text class="checkin-text">{{hasCheckedIn ? '已签到 ✓' : '每日签到'}}</text>
+            </view>
+          </view>
+        </view>
+
+        <view class="stats-row">
+          <view class="stat-item">
+            <text class="stat-value">{{userInfo.checkinDays}}</text>
+            <text class="stat-label">签到天数</text>
+          </view>
+          <view class="stat-divider"></view>
+          <view class="stat-item">
+            <text class="stat-value">{{conversationCount}}</text>
+            <text class="stat-label">对话数</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <scroll-view scroll-y class="settings-area" enhanced show-scrollbar="{{false}}">
+      <view class="settings-inner">
+      <view class="menu-group">
+        <text class="menu-group-title">账户</text>
+        <view class="menu-card">
+          <view class="menu-item" data-key="token-history" bindtap="onViewStarPowerHistory">
+            <view class="menu-icon-wrap menu-icon-purple">
+              <text class="menu-icon">📊</text>
+            </view>
+            <text class="menu-label">星力明细</text>
+            <text class="menu-hint">查看流水记录</text>
+            <text class="menu-arrow">›</text>
+          </view>
+          <view class="menu-item" data-key="favorites" bindtap="onSettingTap">
+            <view class="menu-icon-wrap menu-icon-yellow">
+              <text class="menu-icon">⭐</text>
+            </view>
+            <text class="menu-label">我的收藏</text>
+            <text class="menu-arrow">›</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="menu-group">
+        <text class="menu-group-title">其他</text>
+        <view class="menu-card">
+          <view class="menu-item" data-key="feedback" bindtap="onSettingTap">
+            <view class="menu-icon-wrap menu-icon-teal">
+              <text class="menu-icon">💬</text>
+            </view>
+            <text class="menu-label">帮助与反馈</text>
+            <text class="menu-arrow">›</text>
+          </view>
+          <view class="menu-item" data-key="about" bindtap="onSettingTap">
+            <view class="menu-icon-wrap menu-icon-blue">
+              <text class="menu-icon">ℹ️</text>
+            </view>
+            <text class="menu-label">关于栖息地</text>
+            <text class="menu-arrow">›</text>
+          </view>
+          <view class="menu-item menu-item-danger" data-key="logout" bindtap="onSettingTap">
+            <view class="menu-icon-wrap menu-icon-red">
+              <text class="menu-icon">🚪</text>
+            </view>
+            <text class="menu-label menu-label-danger">退出登录</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="footer">
+        <text class="footer-text">Habitat Haven v1.0.0 · 栖息地</text>
+      </view>
+
+      <view class="bottom-spacer"></view>
+      </view>
+    </scroll-view>
+  </block>
+</view>

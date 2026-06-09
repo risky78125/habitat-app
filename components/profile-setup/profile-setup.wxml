@@ -1,0 +1,40 @@
+<view wx:if="{{show}}" class="overlay">
+  <view class="card">
+    <text class="title">完善个人信息</text>
+    <text class="subtitle">设置你的头像和昵称</text>
+
+    <!-- 头像选择 -->
+    <view class="avatar-section">
+      <button class="avatar-btn" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+        <image wx:if="{{avatarUrl}}" class="avatar-img" src="{{avatarUrl}}" mode="aspectFill" />
+        <view wx:else class="avatar-placeholder">
+          <text class="avatar-placeholder-icon">📷</text>
+        </view>
+      </button>
+    </view>
+
+    <!-- 昵称输入：type=nickname 支持微信昵称联想，同时允许自定义输入 -->
+    <view class="input-section">
+      <text class="input-label">昵称</text>
+      <input
+        class="nickname-input"
+        type="nickname"
+        placeholder="请输入昵称"
+        placeholder-style="color: #A8ABBC"
+        value="{{nickname}}"
+        bindinput="onNicknameInput"
+        bindchange="onNicknameChange" bindblur="onNicknameBlur"
+      />
+    </view>
+
+    <!-- 按钮 -->
+    <view class="btn-group">
+      <view class="btn-submit {{submitting ? 'disabled' : ''}}" bindtap="onSubmit">
+        <text class="btn-submit-text">{{submitting ? '保存中...' : '保存'}}</text>
+      </view>
+      <view class="btn-skip" bindtap="onSkip">
+        <text class="btn-skip-text">稍后再说</text>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,75 @@
+<view class="page">
+  <view class="header" style="padding-top: {{statusBarHeight}}px;">
+    <text class="header-title">探索智能体</text>
+    <text class="header-subtitle">发现最适合你的AI伙伴</text>
+  </view>
+
+  <view class="search-bar">
+    <image class="search-icon" src="/assets/icons/search.svg" mode="aspectFit" />
+    <input
+      class="search-input"
+      placeholder="搜索智能体..."
+      placeholder-style="color: #A8ABBC; font-size: 30rpx;"
+      value="{{searchQuery}}"
+      bindinput="onSearchInput"
+      bindconfirm="onSearchConfirm"
+      confirm-type="search"
+    />
+    <text wx:if="{{searchQuery}}" class="search-clear" bindtap="onSearchClear">✕</text>
+  </view>
+
+  <scroll-view scroll-x class="category-scroll" enhanced show-scrollbar="{{false}}">
+    <view
+      wx:for="{{categories}}"
+      wx:key="key"
+      class="category-tab {{selectedCategory === item.key ? 'active' : ''}}"
+      data-category="{{item.key}}"
+      bindtap="onCategoryTap"
+    >{{item.label}}</view>
+  </scroll-view>
+
+  <view class="results-bar">
+    <text class="results-count">{{total}} 个智能体</text>
+  </view>
+
+  <view class="agent-list">
+    <view wx:if="{{loading}}" class="loading-wrap">
+      <view class="dot"></view>
+      <view class="dot"></view>
+      <view class="dot"></view>
+    </view>
+
+    <block wx:else>
+      <view
+        wx:for="{{agents}}"
+        wx:key="id"
+        class="agent-card"
+        data-id="{{item.id}}"
+        bindtap="onAgentTap"
+      >
+        <view class="card-header">
+          <view class="card-avatar" style="background: {{item.cardGradient}}">{{item.displayIcon}}</view>
+          <view class="card-info">
+            <text class="card-name">{{item.name}}</text>
+            <text class="card-category">{{item.displayCategory}}</text>
+          </view>
+        </view>
+        <text class="card-desc">{{item.description}}</text>
+        <view class="card-footer">
+          <text class="card-tag">{{item.displayCategory}}</text>
+          <text class="card-cta">开始对话</text>
+        </view>
+      </view>
+
+      <view wx:if="{{agents.length === 0}}" class="empty-state">
+        <text class="empty-icon">🔍</text>
+        <text class="empty-title">没有找到匹配结果</text>
+        <text class="empty-desc">试试其他关键词</text>
+      </view>
+
+      <text wx:if="{{hasMore && agents.length > 0}}" class="load-more">加载更多...</text>
+    </block>
+
+    <view class="bottom-spacer"></view>
+  </view>
+</view>

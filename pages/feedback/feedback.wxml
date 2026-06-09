@@ -1,0 +1,57 @@
+<view class="page">
+  <view class="nav-bar" style="padding-top: {{statusBarHeight}}px;">
+    <view class="nav-content">
+      <view class="nav-back" bindtap="onBack">
+        <text class="nav-back-icon">‹</text>
+      </view>
+      <text class="nav-title">意见反馈</text>
+      <view class="nav-placeholder"></view>
+    </view>
+  </view>
+
+  <view class="form">
+    <view class="form-section">
+      <text class="form-label">反馈类型</text>
+      <view class="category-row">
+        <view
+          wx:for="{{categories}}"
+          wx:key="key"
+          class="category-chip {{selectedCategory === item.key ? 'active' : ''}}"
+          data-key="{{item.key}}"
+          bindtap="onCategoryTap"
+        >
+          <text class="category-text">{{item.label}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="form-section">
+      <text class="form-label">反馈内容</text>
+      <textarea
+        class="textarea"
+        placeholder="请详细描述你遇到的问题或建议..."
+        placeholder-style="color: #C8CADC;"
+        maxlength="500"
+        value="{{content}}"
+        bindinput="onContentInput"
+        auto-height
+      />
+      <text class="char-count">{{content.length}}/500</text>
+    </view>
+
+    <view class="form-section">
+      <text class="form-label">联系方式（选填）</text>
+      <input
+        class="input"
+        placeholder="微信号或邮箱，方便我们联系你"
+        placeholder-style="color: #C8CADC;"
+        value="{{contact}}"
+        bindinput="onContactInput"
+      />
+    </view>
+
+    <view class="submit-btn {{submitting ? 'disabled' : ''}}" bindtap="onSubmit">
+      <text class="submit-text">{{submitting ? '提交中...' : '提交反馈'}}</text>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,6 @@
+{
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "profile-setup": "/components/profile-setup/profile-setup"
+  }
+}

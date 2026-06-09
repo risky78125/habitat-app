@@ -1,0 +1,157 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card {
+  width: 85%;
+  background: #fff;
+  border-radius: 32rpx;
+  padding: 48rpx 40rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24rpx;
+  box-shadow: 0 16rpx 64rpx rgba(0, 0, 0, 0.15);
+}
+
+.title {
+  font-size: 36rpx;
+  font-weight: 800;
+  color: #222222;
+}
+
+.subtitle {
+  font-size: 26rpx;
+  color: #8B8FA8;
+  margin-bottom: 16rpx;
+}
+
+/* Avatar */
+.avatar-section {
+  margin-bottom: 16rpx;
+}
+
+.avatar-btn {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 50%;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  line-height: normal;
+  box-sizing: border-box;
+}
+
+.avatar-btn::after {
+  border: none;
+  border-radius: 0;
+}
+
+.avatar-img {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 50%;
+  display: block;
+  border: 6rpx solid #fff;
+  box-shadow: 0 8rpx 32rpx rgba(91, 108, 255, 0.25);
+}
+
+.avatar-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #5B6CFF 0%, #8B7FFF 100%);
+  border: 6rpx solid #fff;
+  box-shadow: 0 8rpx 32rpx rgba(91, 108, 255, 0.25);
+  box-sizing: border-box;
+}
+
+.avatar-placeholder-icon {
+  font-size: 52rpx;
+}
+
+/* Input */
+.input-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+.input-label {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #222222;
+}
+
+.nickname-input {
+  width: 100%;
+  height: 88rpx;
+  border-radius: 20rpx;
+  background: #F0F1F8;
+  border: 2rpx solid rgba(91, 108, 255, 0.12);
+  padding: 0 28rpx;
+  font-size: 28rpx;
+  color: #222222;
+  box-sizing: border-box;
+}
+
+/* Buttons */
+.btn-group {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+  margin-top: 16rpx;
+}
+
+.btn-submit {
+  width: 100%;
+  height: 88rpx;
+  border-radius: 24rpx;
+  background: #5B6CFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8rpx 28rpx rgba(91, 108, 255, 0.35);
+}
+
+.btn-submit.disabled {
+  opacity: 0.6;
+}
+
+.btn-submit-text {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #fff;
+}
+
+.btn-skip {
+  width: 100%;
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-skip-text {
+  font-size: 26rpx;
+  color: #8B8FA8;
+}

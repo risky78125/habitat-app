@@ -1,0 +1,21 @@
+# Compiled JS (generated from .ts)
+pages/**/*.js
+components/**/*.js
+custom-tab-bar/**/*.js
+utils/**/*.js
+constants/**/*.js
+app.js
+config.js
+
+# Dependencies
+node_modules/
+
+# OS files
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
+
+# WeChat DevTools
+miniprogram_npm/

@@ -1,0 +1,79 @@
+<view class="page">
+  <!-- Login overlay -->
+  <view wx:if="{{loginFailed}}" class="login-overlay">
+    <view class="login-card">
+      <text class="login-emoji">🔐</text>
+      <text class="login-title">需要登录</text>
+      <text class="login-desc">登录后即可查看对话记录</text>
+      <view class="login-btn" bindtap="onRetryLogin">
+        <text class="login-btn-text">微信登录</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="header" style="padding-top: {{statusBarHeight}}px;">
+    <text class="header-title">我的对话</text>
+    <text class="header-subtitle">与AI智能体的交流记录</text>
+  </view>
+
+  <scroll-view
+    scroll-y
+    class="conv-list"
+    bindscrolltolower="onReachBottom"
+    refresher-enabled
+    refresher-triggered="{{refreshing}}"
+    bindrefresherrefresh="onPullDownRefresh"
+    enhanced
+    show-scrollbar="{{false}}"
+  >
+    <view class="conv-list-inner">
+    <view wx:if="{{loading}}" class="loading-wrap">
+      <view class="loading-dots">
+        <view class="dot"></view>
+        <view class="dot"></view>
+        <view class="dot"></view>
+      </view>
+    </view>
+
+    <view wx:else class="conv-items">
+      <view
+        wx:for="{{conversations}}"
+        wx:key="id"
+        class="conv-item"
+        data-id="{{item.id}}"
+        data-agent-id="{{item.agentId}}"
+        bindtap="onConversationTap"
+      >
+        <view class="conv-avatar" style="background: {{item.convGradient}}">
+          <text class="conv-avatar-text">{{item.displayIcon}}</text>
+        </view>
+        <view class="conv-info">
+          <view class="conv-row">
+            <text class="conv-title">{{item.title}}</text>
+            <text class="conv-time">{{item.displayTime}}</text>
+          </view>
+          <view class="conv-meta">
+            <text class="conv-count">{{item.messageCount}} 条消息</text>
+            <text wx:if="{{item.totalTokensUsed > 0}}" class="conv-tokens">{{item.totalTokensUsed}} Token</text>
+          </view>
+        </view>
+        <view class="conv-delete" data-id="{{item.id}}" catchtap="onDeleteConversation">
+          <text class="conv-delete-icon">✕</text>
+        </view>
+      </view>
+    </view>
+
+    <view wx:if="{{!loading && conversations.length === 0}}" class="empty-state">
+      <text class="empty-icon">💬</text>
+      <text class="empty-title">还没有对话</text>
+      <text class="empty-desc">去探索页面选择一个智能体开始对话吧</text>
+    </view>
+
+    <view wx:if="{{!loading && hasMore && conversations.length > 0}}" class="load-more">
+      <text class="load-more-text">加载更多...</text>
+    </view>
+
+    <view class="bottom-spacer"></view>
+    </view>
+  </scroll-view>
+</view>
