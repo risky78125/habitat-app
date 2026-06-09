@@ -1,5 +1,4 @@
 <view class="page">
-  <!-- Login overlay -->
   <view wx:if="{{loginFailed}}" class="login-overlay">
     <view class="login-card">
       <text class="login-emoji">🔐</text>
@@ -11,69 +10,64 @@
     </view>
   </view>
 
-  <view class="header" style="padding-top: {{statusBarHeight}}px;">
-    <text class="header-title">我的对话</text>
-    <text class="header-subtitle">与AI智能体的交流记录</text>
-  </view>
-
   <scroll-view
     scroll-y
     class="conv-list"
     bindscrolltolower="onReachBottom"
     refresher-enabled
+    refresher-threshold="80"
+    refresher-ballistic-refresh-enabled="{{false}}"
+    refresher-background="#F7F8FC"
     refresher-triggered="{{refreshing}}"
     bindrefresherrefresh="onPullDownRefresh"
-    enhanced
+    bounces="{{false}}"
     show-scrollbar="{{false}}"
   >
-    <view class="conv-list-inner">
+    <view class="conv-pad">
     <view wx:if="{{loading}}" class="loading-wrap">
-      <view class="loading-dots">
-        <view class="dot"></view>
-        <view class="dot"></view>
-        <view class="dot"></view>
-      </view>
+      <view class="dot"></view><view class="dot"></view><view class="dot"></view>
     </view>
 
-    <view wx:else class="conv-items">
-      <view
-        wx:for="{{conversations}}"
-        wx:key="id"
-        class="conv-item"
-        data-id="{{item.id}}"
-        data-agent-id="{{item.agentId}}"
-        bindtap="onConversationTap"
-      >
-        <view class="conv-avatar" style="background: {{item.convGradient}}">
-          <text class="conv-avatar-text">{{item.displayIcon}}</text>
-        </view>
-        <view class="conv-info">
-          <view class="conv-row">
-            <text class="conv-title">{{item.title}}</text>
-            <text class="conv-time">{{item.displayTime}}</text>
+    <block wx:elif="{{conversations.length > 0}}">
+      <view class="conv-items">
+        <view
+          wx:for="{{conversations}}" wx:key="id"
+          class="conv-item"
+          data-id="{{item.id}}" data-agent-id="{{item.agentId}}"
+          bindtap="onConversationTap"
+        >
+          <view class="conv-avatar" style="background: {{item.convGradient}}">
+            <text class="conv-avatar-text">{{item.displayIcon}}</text>
           </view>
-          <view class="conv-meta">
-            <text class="conv-count">{{item.messageCount}} 条消息</text>
-            <text wx:if="{{item.totalTokensUsed > 0}}" class="conv-tokens">{{item.totalTokensUsed}} Token</text>
+          <view class="conv-info">
+            <view class="conv-row">
+              <text class="conv-title">{{item.title}}</text>
+              <text class="conv-time">{{item.displayTime}}</text>
+            </view>
+            <view class="conv-meta">
+              <text class="conv-count">{{item.messageCount}} 条消息</text>
+              <text wx:if="{{item.totalStarPowerUsed > 0}}" class="conv-tokens">{{item.totalStarPowerUsed}} Token</text>
+            </view>
           </view>
-        </view>
-        <view class="conv-delete" data-id="{{item.id}}" catchtap="onDeleteConversation">
-          <text class="conv-delete-icon">✕</text>
+          <view class="conv-delete" data-id="{{item.id}}" catchtap="onDeleteConversation">✕</view>
         </view>
       </view>
+      <view wx:if="{{hasMore}}" class="load-more">加载更多...</view>
+    </block>
+
+    <view wx:elif="{{loadError}}" class="state-placeholder" bindtap="onRetryLoad">
+      <text class="state-icon">⚠️</text>
+      <text class="state-title">加载失败</text>
+      <text class="state-desc">点击重试</text>
     </view>
 
-    <view wx:if="{{!loading && conversations.length === 0}}" class="empty-state">
-      <text class="empty-icon">💬</text>
-      <text class="empty-title">还没有对话</text>
-      <text class="empty-desc">去探索页面选择一个智能体开始对话吧</text>
+    <view wx:else class="state-placeholder">
+      <text class="state-icon">💬</text>
+      <text class="state-title">还没有对话</text>
+      <text class="state-desc">去探索页面选择一个智能体开始对话吧</text>
     </view>
 
-    <view wx:if="{{!loading && hasMore && conversations.length > 0}}" class="load-more">
-      <text class="load-more-text">加载更多...</text>
-    </view>
-
-    <view class="bottom-spacer"></view>
+    <view style="height: 600rpx;"></view>
     </view>
   </scroll-view>
 </view>

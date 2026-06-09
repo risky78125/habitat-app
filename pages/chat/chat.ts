@@ -9,22 +9,20 @@ interface DisplayConversation extends Conversation {
   convGradient: string
 }
 
+const PAGE_SIZE = 20
+
 Component({
   data: {
-    statusBarHeight: 0,
     conversations: [] as DisplayConversation[],
     loading: true,
+    loadError: false,
     loginFailed: false,
-    page: 1,
-    total: 0,
     hasMore: true,
     refreshing: false,
   },
 
   lifetimes: {
     attached() {
-      const sysInfo = wx.getWindowInfo()
-      this.setData({ statusBarHeight: sysInfo.statusBarHeight })
       this.initAfterLogin()
     },
   },
@@ -42,94 +40,84 @@ Component({
 
   methods: {
     async initAfterLogin() {
-      const app = getApp()
-      const loggedIn = await app.waitForLogin()
-      if (!loggedIn) {
-        this.setData({ loginFailed: true, loading: false })
-        return
-      }
+      const ok = await getApp().waitForLogin()
+      if (!ok) { this.setData({ loginFailed: true, loading: false }); return }
       this.setData({ loginFailed: false })
       this.loadConversations()
     },
 
-    async loadConversations(append = false) {
-      if (!append) this.setData({ loading: true })
+    async loadConversations(append = false, silent = false) {
+      if (!append && !silent) this.setData({ loading: true, loadError: false })
 
       try {
-        const res = await getConversations(append ? this.data.page : 1, 20)
-        const raw = append
+        const page = append ? (this as any)._page || 1 : 1
+        const res = await getConversations(page, PAGE_SIZE)
+        const records = append
           ? [...this.data.conversations, ...(res.records || [])]
           : (res.records || [])
 
-        const conversations = raw.map(c => ({
-          ...c,
-          displayTime: formatRelativeTime(c.lastMessageAt),
-          displayIcon: '🤖',
-          convGradient: DEFAULT_GRADIENT,
-        }))
-
+        ;(this as any)._page = page
         this.setData({
-          conversations,
-          total: res.total || 0,
-          page: append ? this.data.page : 1,
-          hasMore: conversations.length < (res.total || 0),
+          conversations: records.map(c => ({
+            ...c,
+            displayTime: formatRelativeTime(c.lastMessageAt),
+            displayIcon: '🤖',
+            convGradient: DEFAULT_GRADIENT,
+          })),
+          hasMore: records.length < (res.total || 0),
           loading: false,
         })
-      } catch (e) {
-        this.setData({ loading: false })
+      } catch {
+        this.setData({ loading: false, loadError: !append })
       }
     },
 
-    onRetryLogin() {
+    async onRetryLogin() {
       this.setData({ loginFailed: false, loading: true })
-      const app = getApp()
-      app.retryLogin().then((ok) => {
-        if (ok) {
-          this.setData({ loginFailed: false })
-          this.loadConversations()
-        } else {
-          this.setData({ loginFailed: true, loading: false })
-        }
-      })
+      const ok = await getApp().retryLogin()
+      this.setData(ok ? { loginFailed: false } : { loginFailed: true, loading: false })
+      if (ok) this.loadConversations()
     },
 
     onConversationTap(e: any) {
       const { id, agentId } = e.currentTarget.dataset
-      wx.navigateTo({
-        url: `/pages/chat/detail/detail?conversationId=${id}&agentId=${agentId}`,
-      })
+      wx.navigateTo({ url: `/pages/chat/detail/detail?conversationId=${id}&agentId=${agentId}` })
     },
 
     onDeleteConversation(e: any) {
-      const { id } = e.currentTarget.dataset
+      const id = e.currentTarget.dataset.id
       wx.showModal({
         title: M.DELETE_CONFIRM_TITLE,
         content: M.DELETE_CONFIRM_CONTENT,
         success: async (res) => {
-          if (res.confirm) {
-            try {
-              await deleteConversation(id)
-              wx.showToast({ title: M.DELETED, icon: 'success' })
-              this.loadConversations()
-            } catch (e) {
-              wx.showToast({ title: M.DELETE_FAILED, icon: 'none' })
-            }
+          if (!res.confirm) return
+          try {
+            await deleteConversation(id)
+            wx.showToast({ title: M.DELETED, icon: 'success' })
+            this.loadConversations()
+          } catch {
+            wx.showToast({ title: M.DELETE_FAILED, icon: 'none' })
           }
         },
       })
     },
 
     onReachBottom() {
-      if (this.data.hasMore && !this.data.loading) {
-        this.setData({ page: this.data.page + 1 })
-        this.loadConversations(true)
-      }
+      if (!this.data.hasMore || this.data.loading) return
+      this.setData({ loading: true })
+      ;(this as any)._page = ((this as any)._page || 1) + 1
+      this.loadConversations(true)
     },
 
     async onPullDownRefresh() {
-      this.setData({ page: 1, refreshing: true })
-      await this.loadConversations()
+      this.setData({ refreshing: true })
+      ;(this as any)._page = 1
+      await this.loadConversations(false, true)
       this.setData({ refreshing: false })
+    },
+
+    onRetryLoad() {
+      this.loadConversations()
     },
   },
 })
