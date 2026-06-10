@@ -1,5 +1,6 @@
 {
   "navigationStyle": "custom",
+  "disableScroll": true,
   "usingComponents": {
     "profile-setup": "/components/profile-setup/profile-setup"
   }

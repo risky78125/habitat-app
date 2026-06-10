@@ -142,19 +142,23 @@ page {
 .loading-dots {
   display: flex;
   align-items: center;
-  gap: 12rpx;
 
   .dot {
     width: 14rpx;
     height: 14rpx;
-    border-radius: 50%;
+    border-radius: 14rpx;
     background: $primary;
     opacity: 0.5;
-    animation: bounce 1.4s infinite ease-in-out both;
+    animation: bounce 1.2s infinite ease-in-out both;
+    overflow: hidden;
 
     &:nth-child(1) { animation-delay: 0s; }
-    &:nth-child(2) { animation-delay: 0.16s; }
-    &:nth-child(3) { animation-delay: 0.32s; }
+    &:nth-child(2) { 
+      animation-delay: 0.20s; 
+      margin-left: 12rpx;
+      margin-right: 12rpx;
+    }
+    &:nth-child(3) { animation-delay: 0.40s; }
   }
 }
 

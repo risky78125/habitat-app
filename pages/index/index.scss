@@ -109,7 +109,6 @@ $accent: #FFB86B;
   padding: 6rpx 20rpx;
   border-radius: 100rpx;
   background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(20rpx);
 }
 
 .featured-badge-text {
@@ -123,7 +122,6 @@ $accent: #FFB86B;
   height: 104rpx;
   border-radius: 32rpx;
   background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(20rpx);
   border: 2rpx solid rgba(255, 255, 255, 0.3);
   display: flex;
   align-items: center;
@@ -171,7 +169,6 @@ $accent: #FFB86B;
   padding: 12rpx 24rpx;
   border-radius: 100rpx;
   background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(20rpx);
 }
 
 .featured-cta-text {
@@ -189,7 +186,6 @@ $accent: #FFB86B;
 /* Sections */
 .section {
   padding: 0 32rpx;
-  flex-shrink: 0;
 }
 .section-header {
   display: flex;
@@ -238,7 +234,6 @@ $accent: #FFB86B;
 .agent-grid {
   display: flex;
   gap: 20rpx;
-  justify-content: flex-start;
 }
 
 .agent-grid-item {
@@ -248,7 +243,8 @@ $accent: #FFB86B;
   gap: 12rpx;
   padding: 24rpx 0;
   border-radius: 32rpx;
-  flex: 0 0 22%;
+  width: calc(25% - 15rpx);
+  flex-shrink: 0;
 }
 
 .agent-grid-icon {
@@ -278,10 +274,10 @@ $accent: #FFB86B;
 .conv-list {
   display: flex;
   flex-direction: column;
-  gap: 16rpx;
 }
 
 .conv-item {
+  margin-bottom: 16rpx;
   display: flex;
   align-items: center;
   gap: 24rpx;
@@ -346,7 +342,6 @@ $accent: #FFB86B;
 
 /* Daily tip */
 .daily-tip {
-  margin-top: 96rpx;
   display: flex;
   gap: 24rpx;
   padding: 32rpx;
