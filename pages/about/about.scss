@@ -6,9 +6,16 @@ $text-secondary: #8B8FA8;
 .page {
   flex: 1;
   background: $bg;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
-/* Navigation bar -- consistent with favorites */
+/* Scroll area */
+.content-area {
+  flex: 1;
+}
+
 .hero {
   position: relative;
   padding: 80rpx 40rpx 60rpx;

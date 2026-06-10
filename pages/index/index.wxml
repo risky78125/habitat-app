@@ -2,14 +2,14 @@
   <!-- 完善个人信息弹窗 -->
   <profile-setup show="{{showProfileSetup}}" bind:done="onProfileSetupDone" />
   <view class="header-bg"></view>
-  <scroll-view scroll-y class="scroll-area" enhanced show-scrollbar="{{false}}">
+  <scroll-view type="custom" scroll-y class="scroll-area" enhanced show-scrollbar="{{false}}">
 
-      <view class="header" style="padding-top: {{statusBarHeight}}px;">
-        <view class="header-left">
-          <text class="greeting">{{greeting}}</text>
-          <text class="username">你好，{{nickname}}</text>
-        </view>
+    <view class="header" style="padding-top: {{statusBarHeight}}px;">
+      <view class="header-left">
+        <text class="greeting">{{greeting}}</text>
+        <text class="username">你好，{{nickname}}</text>
       </view>
+    </view>
     <!-- Loading -->
     <view wx:if="{{loading}}" class="loading-wrap">
       <view class="loading-dots">
@@ -51,14 +51,7 @@
           <text class="section-title">快速开始</text>
         </view>
         <view class="quick-grid">
-          <view
-            wx:for="{{quickCategories}}"
-            wx:key="key"
-            class="quick-item"
-            style="background: {{item.bg}}"
-            data-category="{{item.key}}"
-            bindtap="onCategoryTap"
-          >
+          <view wx:for="{{quickCategories}}" wx:key="key" class="quick-item" style="background: {{item.bg}}" data-category="{{item.key}}" bindtap="onCategoryTap">
             <text class="quick-icon">{{item.icon}}</text>
             <text class="quick-label" style="color: {{item.color}}">{{item.label}}</text>
           </view>
@@ -72,13 +65,7 @@
           <text class="section-more" bindtap="onViewAllAgents">查看全部</text>
         </view>
         <view class="agent-grid">
-          <view
-            wx:for="{{hotAgents}}"
-            wx:key="id"
-            class="agent-grid-item"
-            data-id="{{item.id}}"
-            bindtap="onAgentTap"
-          >
+          <view wx:for="{{hotAgents}}" wx:key="id" class="agent-grid-item" data-id="{{item.id}}" bindtap="onAgentTap">
             <view class="agent-grid-icon" style="background: {{item.chipGradient}}">
               <text class="agent-grid-emoji">{{item.displayIcon}}</text>
             </view>
@@ -92,14 +79,7 @@
           <text class="section-title">最近对话</text>
         </view>
         <view class="conv-list">
-          <view
-            wx:for="{{recentConversations}}"
-            wx:key="id"
-            class="conv-item"
-            data-id="{{item.id}}"
-            data-agent-id="{{item.agentId}}"
-            bindtap="onConversationTap"
-          >
+          <view wx:for="{{recentConversations}}" wx:key="id" class="conv-item" data-id="{{item.id}}" data-agent-id="{{item.agentId}}" bindtap="onConversationTap">
             <view class="conv-icon">
               <text class="conv-icon-text">{{item.displayIcon}}</text>
             </view>

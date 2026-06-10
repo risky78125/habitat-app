@@ -1,4 +1,6 @@
 {
   "component": true,
+  "componentFramework": "glass-easel",
+  "renderer": "skyline",
   "styleIsolation": "apply-shared"
 }

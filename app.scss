@@ -16,6 +16,7 @@ $card-shadow: 0 4rpx 16rpx rgba(91, 108, 255, 0.06);
 page {
   display: flex;
   flex-direction: column;
+  height: 100vh;
   font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', sans-serif;
   background: $bg;
   color: $text-primary;

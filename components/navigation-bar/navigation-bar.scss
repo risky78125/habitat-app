@@ -1,60 +1,58 @@
-.nav-bar {
-  background: #fff;
-  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
-  flex-shrink: 0;
-  top: 0;
-  z-index: 100;
+.weui-navigation-bar {
+  display: flex;
+  overflow: hidden;
+  color: rgba(0, 0, 0, .9);
+  width: 100vw;
 }
 
-.nav-content {
-  height: 88rpx;
+.weui-navigation-bar__inner {
+  position: relative;
   display: flex;
   align-items: center;
-  padding: 0 24rpx;
+  flex-direction: row;
+  padding-right: 95px;
+  width: 100vw;
+  box-sizing: border-box;
 }
 
-.nav-left {
-  width: 80rpx;
+.weui-navigation-bar__left {
+  position: relative;
+  width: 95px;
+  padding-left: 16px;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
+  flex-direction: row;
 }
 
-.nav-back {
-  width: 64rpx;
-  height: 64rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
+.weui-navigation-bar__btn_goback_wrapper {
+  padding: 11px 18px 11px 16px;
+  margin: -11px -18px -11px -16px;
 }
 
-.nav-back-hover {
-  background: rgba(0, 0, 0, 0.05);
+.weui-navigation-bar__btn_goback {
+  font-size: 12px;
+  width: 12px;
+  height: 24px;
+  background: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='24' viewBox='0 0 12 24'%3E %3Cpath fill-opacity='.9' fill-rule='evenodd' d='M10 19.438L8.955 20.5l-7.666-7.79a1.02 1.02 0 0 1 0-1.42L8.955 3.5 10 4.563 2.682 12 10 19.438z'/%3E%3C/svg%3E") no-repeat 50% 50%;
+  background-color: currentColor;
+  background-size: cover;
 }
 
-.nav-back-icon {
-  font-size: 48rpx;
-  color: #222222;
-  font-weight: 300;
-  line-height: 1;
-}
-
-.nav-center {
+.weui-navigation-bar__center {
+  font-size: 17px;
+  text-align: center;
+  position: relative;
   flex: 1;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  font-weight: bold;
 }
 
-.nav-title {
-  font-size: 32rpx;
-  font-weight: 700;
-  color: #222222;
-}
-
-.nav-right {
-  width: 80rpx;
+.weui-navigation-bar__right {
+  position: relative;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
 }

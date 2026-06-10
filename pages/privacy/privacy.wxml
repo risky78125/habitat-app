@@ -1,6 +1,6 @@
 <view class="page">
   <navigation-bar title="隐私政策" />
-  <scroll-view scroll-y class="content-area">
+  <scroll-view type="list" scroll-y class="content-area">
     <view class="content">
       <text class="update-info">更新日期：{{updateDate}}</text>
 

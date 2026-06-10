@@ -49,10 +49,7 @@
       "defaultContentBox": true,
       "disableABTest": true,
       "sdkVersionBegin": "3.0.0",
-      "sdkVersionEnd": "15.255.255",
-      "tagNameStyleIsolation": "legacy",
-      "enableScrollViewAutoSize": true,
-      "keyframeStyleIsolation": "legacy"
+      "sdkVersionEnd": "15.255.255"
     }
   },
   "componentFramework": "glass-easel",

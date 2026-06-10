@@ -3,6 +3,7 @@
   <login-overlay show="{{loginFailed}}" desc="登录后即可查看对话记录" bind:retry="onRetryLogin" />
 
   <scroll-view
+    type="list"
     scroll-y
     class="conv-list"
     bindscrolltolower="onReachBottom"

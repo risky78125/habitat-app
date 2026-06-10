@@ -4,14 +4,10 @@ $text-primary: #222222;
 $text-secondary: #8B8FA8;
 
 .page {
-  flex: 1;
   background: $bg;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
 }
 
-/* Header center */
+/* Header center (inside navigation-bar slot) */
 .header-center {
   display: flex;
   flex-direction: column;
@@ -30,72 +26,87 @@ $text-secondary: #8B8FA8;
   color: $text-secondary;
 }
 
-/* Scroll area */
-.scroll-area {
-  flex: 1;
+/* Search bar */
+.search-container {
+  padding: 24rpx 32rpx 20rpx;
 }
 
-/* Search */
 .search-bar {
   display: flex;
+  flex-direction: row;
   align-items: center;
-  gap: 20rpx;
-  height: 96rpx;
-  margin: 0 32rpx 20rpx;
-  padding: 0 32rpx;
-  border-radius: 32rpx;
+  box-sizing: border-box;
+  width: 100%;
+  height: 80rpx;
+  border-radius: 16rpx;
   background: #fff;
-  border: 2rpx solid rgba(91, 108, 255, 0.12);
+  border: 2rpx solid rgba(91, 108, 255, 0.15);
   box-shadow: 0 4rpx 24rpx rgba(91, 108, 255, 0.06);
+  padding: 0 24rpx;
 }
 
-.search-icon {
-  width: 36rpx;
-  height: 36rpx;
+.search-icon-wrap {
+  width: 40rpx;
+  height: 40rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
+  margin-right: 16rpx;
+}
+
+.search-icon-img {
+  width: 32rpx;
+  height: 32rpx;
 }
 
 .search-input {
   flex: 1;
-  font-size: 30rpx;
+  font-size: 28rpx;
   color: $text-primary;
+  height: 100%;
 }
 
 .search-clear {
   width: 40rpx;
   height: 40rpx;
-  line-height: 40rpx;
   border-radius: 50%;
-  background: rgba(0, 0, 0, 0.08);
+  background: rgba(0, 0, 0, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 22rpx;
   color: $text-secondary;
-  text-align: center;
   flex-shrink: 0;
+  margin-left: 16rpx;
 }
 
-/* Categories */
-.category-wrap {
-  flex-shrink: 0;
-  height: 80rpx;
-  margin-bottom: 20rpx;
+/* Scroll area — full viewport height like product-list example */
+.scroll-area {
+  height: 100vh;
 }
 
-.category-scroll {
-  height: 100%;
-  padding: 0 32rpx;
+/* Category swiper (sticky) */
+.category-swiper {
+  height: 100rpx;
+  background: $bg;
 }
 
-.category-scroll-inner {
+.category-row {
   display: flex;
   gap: 16rpx;
   height: 100%;
   align-items: center;
+  padding: 0 32rpx;
 }
 
 .category-tab {
-  flex-shrink: 0;
-  padding: 16rpx 32rpx;
-  border-radius: 100rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  height: 64rpx;
+  border-radius: 16rpx;
   background: #fff;
   border: 2rpx solid rgba(91, 108, 255, 0.15);
   font-size: 26rpx;
@@ -110,122 +121,25 @@ $text-secondary: #8B8FA8;
   }
 }
 
-/* Results */
+/* Results count */
 .results-bar {
-  padding: 0 32rpx 16rpx;
+  padding: 16rpx 32rpx 8rpx;
 }
 
 .results-count {
-  font-size: 28rpx;
+  font-size: 26rpx;
   font-weight: 700;
-  color: $text-primary;
+  color: $text-secondary;
 }
 
-/* Agent list */
-.agent-list {
-  padding: 0 32rpx;
-}
-
+/* Loading */
 .loading-wrap {
   display: flex;
   justify-content: center;
   gap: 12rpx;
-  padding: 80rpx 0;
+  padding: 120rpx 0;
 }
 
-.agent-card {
-  padding: 32rpx;
-  margin-bottom: 24rpx;
-  background: #fff;
-  border: 1rpx solid rgba(91, 108, 255, 0.08);
-  border-radius: 32rpx;
-  box-shadow: 0 8rpx 32rpx rgba(91, 108, 255, 0.06);
-}
-
-.card-header {
-  display: flex;
-  align-items: center;
-  gap: 24rpx;
-  margin-bottom: 20rpx;
-}
-
-.card-avatar {
-  width: 104rpx;
-  height: 104rpx;
-  border-radius: 32rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  font-size: 48rpx;
-  box-shadow: 0 12rpx 36rpx rgba(91, 108, 255, 0.2);
-}
-
-.card-info {
-  display: flex;
-  flex-direction: column;
-  gap: 4rpx;
-}
-
-.card-name {
-  font-size: 30rpx;
-  font-weight: 800;
-  color: $text-primary;
-}
-
-.card-category {
-  font-size: 24rpx;
-  color: $text-secondary;
-}
-
-.card-desc {
-  display: block;
-  margin-bottom: 20rpx;
-  font-size: 26rpx;
-  color: #666680;
-  line-height: 1.6;
-  overflow: hidden;
-  max-height: 84rpx;
-}
-
-.card-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.card-tag {
-  padding: 8rpx 20rpx;
-  border-radius: 100rpx;
-  font-size: 22rpx;
-  font-weight: 600;
-  color: $primary;
-  background: rgba(91, 108, 255, 0.08);
-}
-
-.card-cta {
-  padding: 16rpx 32rpx;
-  border-radius: 24rpx;
-  font-size: 26rpx;
-  font-weight: 700;
-  color: #fff;
-  background: $primary;
-}
-
-/* Load more */
-.load-more {
-  display: block;
-  text-align: center;
-  padding: 32rpx 0;
-  font-size: 24rpx;
-  color: $text-secondary;
-}
-
-.bottom-spacer {
-  height: 160rpx;
-}
-
-/* Loading dots */
 .dot {
   width: 16rpx;
   height: 16rpx;
@@ -251,17 +165,108 @@ $text-secondary: #8B8FA8;
   gap: 16rpx;
 }
 
-.empty-icon {
-  font-size: 80rpx;
+.empty-icon { font-size: 80rpx; }
+.empty-title { font-size: 32rpx; font-weight: 700; color: $text-primary; }
+.empty-desc { font-size: 26rpx; color: $text-secondary; }
+
+/* Agent list */
+.agent-list {
+  padding: 0 32rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
 }
 
-.empty-title {
-  font-size: 32rpx;
+/* Agent card — horizontal: avatar left, info right */
+.agent-card {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+  padding: 28rpx;
+  background: #fff;
+  border: 1rpx solid rgba(91, 108, 255, 0.08);
+  border-radius: 32rpx;
+  box-shadow: 0 4rpx 24rpx rgba(91, 108, 255, 0.06);
+}
+
+.card-avatar {
+  width: 104rpx;
+  height: 104rpx;
+  border-radius: 28rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 8rpx 24rpx rgba(91, 108, 255, 0.15);
+}
+
+.card-avatar-text {
+  font-size: 48rpx;
+}
+
+.card-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+}
+
+.card-name {
+  font-size: 30rpx;
   font-weight: 700;
   color: $text-primary;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.empty-desc {
-  font-size: 26rpx;
+.card-desc {
+  font-size: 24rpx;
+  color: #888;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.card-meta {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  margin-top: 2rpx;
+}
+
+.card-tag {
+  padding: 4rpx 14rpx;
+  border-radius: 100rpx;
+  font-size: 20rpx;
+  font-weight: 600;
+  color: $primary;
+  background: rgba(91, 108, 255, 0.08);
+}
+
+.card-arrow {
+  font-size: 36rpx;
+  color: #C8CADC;
+  flex-shrink: 0;
+}
+
+/* Load more */
+.load-more {
+  text-align: center;
+  padding: 24rpx 0;
+  font-size: 24rpx;
   color: $text-secondary;
+}
+
+.bottom-spacer {
+  height: 160rpx;
+}
+
+/* Sticky header — ensure proper display */
+sticky-header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: block;
 }

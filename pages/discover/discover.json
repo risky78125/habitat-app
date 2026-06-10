@@ -1,5 +1,6 @@
 {
   "navigationStyle": "custom",
+  "disableScroll": true,
   "backgroundColor": "#F7F8FC",
   "usingComponents": {
     "navigation-bar": "/components/navigation-bar/navigation-bar"

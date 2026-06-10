@@ -6,34 +6,76 @@
     </view>
   </navigation-bar>
 
-  <scroll-view scroll-y class="scroll-area" enhanced show-scrollbar="{{false}}" bindscrolltolower="onScrollToLower" lower-threshold="200">
-
-    <view class="category-wrap">
-      <scroll-view scroll-x class="category-scroll" enhanced show-scrollbar="{{false}}">
-        <view class="category-scroll-inner">
-          <view
-            wx:for="{{categories}}"
-            wx:key="key"
-            class="category-tab {{selectedCategory === item.key ? 'active' : ''}}"
-            data-category="{{item.key}}"
-            bindtap="onCategoryTap"
-          >{{item.label}}</view>
+  <scroll-view
+    class="scroll-area"
+    type="custom"
+    scroll-y
+    show-scrollbar="{{false}}"
+    bindscrolltolower="onScrollToLower"
+    lower-threshold="200"
+  >
+    <view class="search-container">
+      <view class="search-bar">
+        <view class="search-icon-wrap">
+          <image class="search-icon-img" src="/assets/icons/search.svg" mode="aspectFit" />
         </view>
-      </scroll-view>
+        <input
+          class="search-input"
+          placeholder="搜索智能体..."
+          placeholder-style="color: #A8ABBC; font-size: 28rpx;"
+          value="{{searchQuery}}"
+          bindinput="onSearchInput"
+          bindconfirm="onSearchConfirm"
+          confirm-type="search"
+        />
+        <view class="search-clear" wx:if="{{searchQuery}}" bindtap="onSearchClear">
+          <text>✕</text>
+        </view>
+      </view>
     </view>
 
-    <view class="results-bar">
-      <text class="results-count">{{total}} 个智能体</text>
-    </view>
+    <sticky-section>
+      <sticky-header>
+        <swiper
+          class="category-swiper"
+          indicator-type="worm"
+          indicator-offset="{{[0,10]}}"
+          indicator-dots="{{categoryPages.length > 1}}"
+          indicator-color="rgba(91, 108, 255, 0.2)"
+          indicator-active-color="#5B6CFF"
+          duration="250"
+        >
+          <swiper-item wx:for="{{categoryPages}}" wx:key="page">
+            <view class="category-row">
+              <view
+                wx:for="{{item}}"
+                wx:key="key"
+                class="category-tab {{selectedCategory === item.key ? 'active' : ''}}"
+                data-category="{{item.key}}"
+                bindtap="onCategoryTap"
+              >{{item.label}}</view>
+            </view>
+          </swiper-item>
+        </swiper>
+      </sticky-header>
 
-    <view class="agent-list">
+      <view class="results-bar">
+        <text class="results-count">{{total}} 个智能体</text>
+      </view>
+
       <view wx:if="{{loading}}" class="loading-wrap">
         <view class="dot"></view>
         <view class="dot"></view>
         <view class="dot"></view>
       </view>
 
-      <block wx:else>
+      <view wx:elif="{{agents.length === 0}}" class="empty-state">
+        <text class="empty-icon">🔍</text>
+        <text class="empty-title">没有找到匹配结果</text>
+        <text class="empty-desc">试试其他关键词</text>
+      </view>
+
+      <view wx:else class="agent-list">
         <view
           wx:for="{{agents}}"
           wx:key="id"
@@ -41,30 +83,21 @@
           data-id="{{item.id}}"
           bindtap="onAgentTap"
         >
-          <view class="card-header">
-            <view class="card-avatar" style="background: {{item.cardGradient}}">{{item.displayIcon}}</view>
-            <view class="card-info">
-              <text class="card-name">{{item.name}}</text>
-              <text class="card-category">{{item.displayCategory}}</text>
+          <view class="card-avatar" style="background: {{item.cardGradient}}">
+            <text class="card-avatar-text">{{item.displayIcon}}</text>
+          </view>
+          <view class="card-info">
+            <text class="card-name">{{item.name}}</text>
+            <text class="card-desc">{{item.description}}</text>
+            <view class="card-meta">
+              <text class="card-tag">{{item.displayCategory}}</text>
             </view>
           </view>
-          <text class="card-desc">{{item.description}}</text>
-          <view class="card-footer">
-            <text class="card-tag">{{item.displayCategory}}</text>
-            <text class="card-cta">开始对话</text>
-          </view>
+          <text class="card-arrow">›</text>
         </view>
-
-        <view wx:if="{{agents.length === 0}}" class="empty-state">
-          <text class="empty-icon">🔍</text>
-          <text class="empty-title">没有找到匹配结果</text>
-          <text class="empty-desc">试试其他关键词</text>
-        </view>
-
-        <text wx:if="{{hasMore && agents.length > 0}}" class="load-more">加载更多...</text>
-      </block>
-
-      <view class="bottom-spacer"></view>
-    </view>
+        <view wx:if="{{hasMore}}" class="load-more">加载更多...</view>
+        <view class="bottom-spacer"></view>
+      </view>
+    </sticky-section>
   </scroll-view>
 </view>

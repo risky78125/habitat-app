@@ -1,10 +1,15 @@
-<view class="nav-bar" style="padding-top: {{statusBarHeight}}px;">
-  <view class="nav-content">
-    <!-- 左侧：返回按钮 / 自定义slot -->
-    <view class="nav-left">
+<view class="weui-navigation-bar">
+  <view class="weui-navigation-bar__inner" style="padding-top: {{statusBarHeight}}px; height: {{navBarHeight}}px; color: {{color}}; background: {{background}}; {{displayStyle}}; {{innerPaddingRight}};">
+    <view class="weui-navigation-bar__left" style="{{leftWidth}}">
       <block wx:if="{{back}}">
-        <view class="nav-back" bindtap="onBack" hover-class="nav-back-hover">
-          <text class="nav-back-icon">‹</text>
+        <view class="weui-navigation-bar__buttons">
+          <view
+            bindtap="onBack"
+            class="weui-navigation-bar__btn_goback_wrapper"
+            hover-class="weui-active"
+          >
+            <view class="weui-navigation-bar__button weui-navigation-bar__btn_goback"></view>
+          </view>
         </view>
       </block>
       <block wx:else>
@@ -12,18 +17,16 @@
       </block>
     </view>
 
-    <!-- 中间：标题 -->
-    <view class="nav-center">
+    <view class="weui-navigation-bar__center">
       <block wx:if="{{title}}">
-        <text class="nav-title">{{title}}</text>
+        <text>{{title}}</text>
       </block>
       <block wx:else>
         <slot name="center"></slot>
       </block>
     </view>
 
-    <!-- 右侧：占位 / 自定义slot -->
-    <view class="nav-right">
+    <view class="weui-navigation-bar__right">
       <slot name="right"></slot>
     </view>
   </view>

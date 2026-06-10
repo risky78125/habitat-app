@@ -15,7 +15,7 @@
   </view>
 
   <block wx:if="{{!loading && !loginFailed && userInfo}}">
-    <scroll-view scroll-y class="settings-area" enhanced show-scrollbar="{{false}}">
+    <scroll-view type="list" scroll-y class="settings-area" enhanced show-scrollbar="{{false}}">
       <view class="hero" style="padding-top: {{statusBarHeight + 20}}px;">
         <view class="hero-ambient hero-ambient-1"></view>
         <view class="hero-ambient hero-ambient-2"></view>

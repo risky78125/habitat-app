@@ -10,10 +10,10 @@ interface DisplayAgent extends Agent {
 
 Component({
   data: {
-    statusBarHeight: 0,
     searchQuery: '',
     selectedCategory: 'all',
     categories: [] as { key: string; label: string }[],
+    categoryPages: [] as { key: string; label: string }[][],
     agents: [] as DisplayAgent[],
     loading: true,
     hasMore: true,
@@ -25,7 +25,6 @@ Component({
 
   lifetimes: {
     attached() {
-      this.setData({ statusBarHeight: wx.getWindowInfo().statusBarHeight })
       this.init()
     },
   },
@@ -55,12 +54,16 @@ Component({
         const map: Record<string, Category> = {}
         cats.forEach(function (c: Category) { map[c.categoryKey] = c })
         this._catMap = map
-        this.setData({
-          categories: [
-            { key: 'all', label: '全部' },
-            ...cats.map(c => ({ key: c.categoryKey, label: c.name })),
-          ],
-        })
+        const all = [
+          { key: 'all', label: '全部' },
+          ...cats.map(c => ({ key: c.categoryKey, label: c.name })),
+        ]
+        const PER_PAGE = 4
+        const categoryPages: { key: string; label: string }[][] = []
+        for (let i = 0; i < all.length; i += PER_PAGE) {
+          categoryPages.push(all.slice(i, i + PER_PAGE))
+        }
+        this.setData({ categories: all, categoryPages })
       } catch (e) {}
     },
 
@@ -98,11 +101,19 @@ Component({
       }
     },
 
-    onSearchInput(e: any) { this.setData({ searchQuery: e.detail.value }) },
+    onSearchInput(e: any) {
+      this.setData({ searchQuery: e.detail.value })
+    },
 
-    onSearchConfirm() { this.setData({ page: 1 }); this.loadAgents() },
+    onSearchConfirm() {
+      this.setData({ page: 1, loading: true })
+      this.loadAgents()
+    },
 
-    onSearchClear() { this.setData({ searchQuery: '', page: 1 }); this.loadAgents() },
+    onSearchClear() {
+      this.setData({ searchQuery: '', page: 1, loading: true })
+      this.loadAgents()
+    },
 
     onCategoryTap(e: any) {
       const key = e.currentTarget.dataset.category
@@ -120,12 +131,6 @@ Component({
         this.setData({ page: this.data.page + 1 })
         this.loadAgents(true)
       }
-    },
-
-    async onPullDownRefresh() {
-      this.setData({ page: 1 })
-      await this.loadAgents()
-      wx.stopPullDownRefresh()
     },
   },
 })
