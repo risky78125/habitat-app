@@ -6,58 +6,14 @@ $text-primary: #222222;
 $text-secondary: #8B8FA8;
 
 .page {
-  min-height: 100vh;
+  flex: 1;
   background: $bg;
   display: flex;
   flex-direction: column;
 }
 
-/* 导航栏 */
-.nav-bar {
-  background: #fff;
-  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-.nav-content {
-  height: 88rpx;
-  display: flex;
-  align-items: center;
-  padding: 0 24rpx;
-}
-
-.nav-back {
-  width: 64rpx;
-  height: 64rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  &:active { background: rgba(0, 0, 0, 0.04); }
-}
-
-.nav-back-icon {
-  font-size: 48rpx;
-  color: $text-primary;
-  font-weight: 300;
-  line-height: 1;
-}
-
-.nav-title {
-  flex: 1;
-  text-align: center;
-  font-size: 32rpx;
-  font-weight: 700;
-  color: $text-primary;
-}
-
-.nav-placeholder {
-  width: 64rpx;
-}
-
-/* 筛选标签 */
+/* Navigation bar */
+/* Filter tabs */
 .filter-bar {
   display: flex;
   gap: 16rpx;
@@ -92,7 +48,7 @@ $text-secondary: #8B8FA8;
   }
 }
 
-/* 加载 */
+/* Loading */
 .loading-wrap {
   display: flex;
   align-items: center;
@@ -120,7 +76,7 @@ $text-secondary: #8B8FA8;
   40% { transform: scale(1); opacity: 1; }
 }
 
-/* 空状态 */
+/* Empty state */
 .empty {
   display: flex;
   flex-direction: column;
@@ -133,7 +89,7 @@ $text-secondary: #8B8FA8;
 .empty-icon { font-size: 80rpx; }
 .empty-text { font-size: 28rpx; color: $text-secondary; }
 
-/* 列表 */
+/* List */
 .list {
   flex: 1;
   padding: 24rpx 32rpx;
@@ -222,7 +178,7 @@ $text-secondary: #8B8FA8;
   color: #C8CADC;
 }
 
-/* 底部加载 */
+/* Bottom loader */
 .loading-more, .no-more {
   text-align: center;
   padding: 24rpx 0;

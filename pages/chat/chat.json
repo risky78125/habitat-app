@@ -1,7 +1,7 @@
 {
-  "navigationStyle": "default",
-  "navigationBarTitleText": "我的对话",
-  "navigationBarBackgroundColor": "#F7F8FC",
-  "navigationBarTextStyle": "black",
-  "disableScroll": true
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "navigation-bar": "/components/navigation-bar/navigation-bar",
+    "login-overlay": "/components/login-overlay/login-overlay"
+  }
 }

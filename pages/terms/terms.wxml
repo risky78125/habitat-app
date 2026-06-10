@@ -1,14 +1,5 @@
 <view class="page">
-  <view class="nav-bar" style="padding-top: {{statusBarHeight}}px;">
-    <view class="nav-content">
-      <view class="nav-back" bindtap="onBack">
-        <text class="nav-back-icon">‹</text>
-      </view>
-      <text class="nav-title">用户协议</text>
-      <view class="nav-placeholder"></view>
-    </view>
-  </view>
-
+  <navigation-bar title="用户协议" />
   <scroll-view scroll-y class="content-area">
     <view class="content">
       <text class="update-info">更新日期：{{updateDate}}</text>

@@ -14,6 +14,8 @@ $card-border: rgba(91, 108, 255, 0.08);
 $card-shadow: 0 4rpx 16rpx rgba(91, 108, 255, 0.06);
 
 page {
+  display: flex;
+  flex-direction: column;
   font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', sans-serif;
   background: $bg;
   color: $text-primary;
@@ -22,18 +24,10 @@ page {
   box-sizing: border-box;
 }
 
-/* Scrollbar hidden */
-::-webkit-scrollbar {
-  display: none;
-  width: 0;
-  height: 0;
-}
-
 /* Common utilities */
 .container {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
   background: $bg;
 }
 
@@ -66,10 +60,6 @@ page {
 
   &::after {
     border: none;
-  }
-
-  &:active {
-    opacity: 0.85;
   }
 }
 

@@ -6,59 +6,18 @@ $text-secondary: #8B8FA8;
 $success: #4ECDC4;
 
 .page {
-  height: 100vh;
+  flex: 1;
   background: $bg;
   display: flex;
   flex-direction: column;
   overflow: hidden;
 }
 
-/* Nav bar — 与其他页面统一风格 */
-.nav-bar {
-  background: #fff;
-  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
-  flex-shrink: 0;
-  position: relative;
-  z-index: 10;
-}
-
-.nav-content {
-  height: 88rpx;
+/* Nav agent info (inside navigation-bar center slot) */
+.nav-agent-info {
   display: flex;
   align-items: center;
   gap: 16rpx;
-  padding: 0 24rpx;
-}
-
-.nav-back {
-  width: 64rpx;
-  height: 64rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  flex-shrink: 0;
-  &:active { background: rgba(0, 0, 0, 0.04); }
-}
-
-.nav-back-icon {
-  font-size: 48rpx;
-  color: $text-primary;
-  font-weight: 300;
-  line-height: 1;
-}
-
-.nav-center {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  gap: 16rpx;
-  min-width: 0;
-}
-
-.nav-placeholder {
-  flex: 1;
-  text-align: center;
 }
 
 .nav-avatar {
@@ -126,9 +85,7 @@ $success: #4ECDC4;
 /* Messages area */
 .messages-area {
   flex: 1;
-  min-height: 0;
 }
-
 .messages-pad {
   padding: 24rpx 32rpx 0;
 }
@@ -201,7 +158,7 @@ $success: #4ECDC4;
   border-radius: 18rpx;
 }
 
-/* Bubble wrapper — limit max width */
+/* Bubble wrapper -- limit max width */
 .msg-bubble-wrap {
   flex: 1;
   min-width: 0;
@@ -418,44 +375,3 @@ $success: #4ECDC4;
 }
 
 /* Login overlay */
-.login-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 999;
-  background: rgba(247, 248, 252, 0.95);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.login-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 24rpx;
-  padding: 64rpx 48rpx;
-  margin: 0 64rpx;
-  background: #fff;
-  border-radius: 40rpx;
-  box-shadow: 0 16rpx 64rpx rgba(91, 108, 255, 0.12);
-}
-
-.login-emoji { font-size: 96rpx; }
-.login-title { font-size: 36rpx; font-weight: 800; color: #222222; }
-.login-desc { font-size: 28rpx; color: #8B8FA8; text-align: center; }
-.login-btn {
-  width: 100%;
-  height: 88rpx;
-  border-radius: 24rpx;
-  background: #5B6CFF;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 16rpx;
-  box-shadow: 0 8rpx 28rpx rgba(91, 108, 255, 0.35);
-}
-.login-btn-text { font-size: 30rpx; font-weight: 700; color: #fff; }
-

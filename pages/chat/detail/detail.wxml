@@ -1,41 +1,25 @@
 <view class="page">
   <!-- Login overlay -->
-  <view wx:if="{{loginFailed}}" class="login-overlay">
-    <view class="login-card">
-      <text class="login-emoji">🔐</text>
-      <text class="login-title">需要登录</text>
-      <text class="login-desc">登录后即可与智能体对话</text>
-      <view class="login-btn" bindtap="onRetryLogin">
-        <text class="login-btn-text">微信登录</text>
-      </view>
-    </view>
-  </view>
+  <login-overlay show="{{loginFailed}}" desc="登录后即可与智能体对话" bind:retry="onRetryLogin" />
 
-  <view class="nav-bar" style="padding-top: {{statusBarHeight}}px;">
-    <view class="nav-content">
-      <view class="nav-back" bindtap="onBack">
-        <text class="nav-back-icon">‹</text>
+  <navigation-bar>
+    <view slot="center" wx:if="{{agent}}" class="nav-agent-info">
+      <view class="nav-avatar">
+        <text class="nav-avatar-text">🤖</text>
+        <view class="nav-online-dot"></view>
       </view>
-
-      <view class="nav-center" wx:if="{{agent}}">
-        <view class="nav-avatar">
-          <text class="nav-avatar-text">🤖</text>
-          <view class="nav-online-dot"></view>
-        </view>
-        <view class="nav-info">
-          <text class="nav-name">{{agent.name}}</text>
-          <view class="nav-status">
-            <view class="nav-status-dot"></view>
-            <text class="nav-status-text">在线</text>
-          </view>
+      <view class="nav-info">
+        <text class="nav-name">{{agent.name}}</text>
+        <view class="nav-status">
+          <view class="nav-status-dot"></view>
+          <text class="nav-status-text">在线</text>
         </view>
       </view>
-
-      <view class="nav-placeholder" wx:else>
-        <text class="nav-name">对话</text>
-      </view>
     </view>
-  </view>
+    <view slot="center" wx:else>
+      <text class="nav-name">对话</text>
+    </view>
+  </navigation-bar>
 
   <scroll-view
     scroll-y

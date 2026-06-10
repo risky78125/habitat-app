@@ -115,7 +115,7 @@ Component({
       wx.navigateTo({ url: `/pages/chat/detail/detail?agentId=${e.currentTarget.dataset.id}` })
     },
 
-    onReachBottom() {
+    onScrollToLower() {
       if (this.data.hasMore && !this.data.loading) {
         this.setData({ page: this.data.page + 1 })
         this.loadAgents(true)

@@ -1,7 +1,6 @@
 {
   "navigationStyle": "custom",
   "usingComponents": {
-    "navigation-bar": "/components/navigation-bar/navigation-bar",
     "profile-setup": "/components/profile-setup/profile-setup"
   }
 }

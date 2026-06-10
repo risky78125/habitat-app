@@ -52,7 +52,6 @@ function withTimeout<T>(p: Promise<T>, ms: number): Promise<T> {
 
 Component({
   data: {
-    statusBarHeight: 0,
     agent: null as Agent | null,
     conversation: null as Conversation | null,
     messages: [] as DisplayMessage[],
@@ -74,8 +73,6 @@ Component({
 
   lifetimes: {
     attached() {
-      const sysInfo = wx.getWindowInfo()
-      this.setData({ statusBarHeight: sysInfo.statusBarHeight })
       // attached 不带 options，等 onLoad 初始化；若 onLoad 未触发则兜底
       setTimeout(() => {
         if (!this.data._initialized) {

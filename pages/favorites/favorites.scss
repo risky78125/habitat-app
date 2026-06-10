@@ -5,58 +5,14 @@ $text-secondary: #8B8FA8;
 $error: #FF4D6A;
 
 .page {
-  min-height: 100vh;
+  flex: 1;
   background: $bg;
   display: flex;
   flex-direction: column;
 }
 
-/* 导航栏 */
-.nav-bar {
-  background: #fff;
-  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-.nav-content {
-  height: 88rpx;
-  display: flex;
-  align-items: center;
-  padding: 0 24rpx;
-}
-
-.nav-back {
-  width: 64rpx;
-  height: 64rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  &:active { background: rgba(0, 0, 0, 0.04); }
-}
-
-.nav-back-icon {
-  font-size: 48rpx;
-  color: $text-primary;
-  font-weight: 300;
-  line-height: 1;
-}
-
-.nav-title {
-  flex: 1;
-  text-align: center;
-  font-size: 32rpx;
-  font-weight: 700;
-  color: $text-primary;
-}
-
-.nav-placeholder {
-  width: 64rpx;
-}
-
-/* 加载 */
+/* Navigation bar */
+/* Loading */
 .loading-wrap {
   display: flex;
   align-items: center;
@@ -84,7 +40,7 @@ $error: #FF4D6A;
   40% { transform: scale(1); opacity: 1; }
 }
 
-/* 空状态 */
+/* Empty state */
 .empty {
   display: flex;
   flex-direction: column;
@@ -98,7 +54,7 @@ $error: #FF4D6A;
 .empty-text { font-size: 32rpx; font-weight: 600; color: $text-primary; }
 .empty-hint { font-size: 26rpx; color: $text-secondary; text-align: center; padding: 0 40rpx; }
 
-/* 列表 */
+/* List */
 .list {
   flex: 1;
   padding: 24rpx 32rpx;
@@ -210,7 +166,7 @@ $error: #FF4D6A;
   font-weight: 600;
 }
 
-/* 底部加载 */
+/* Bottom loader */
 .loading-more, .no-more {
   text-align: center;
   padding: 24rpx 0;

@@ -1,15 +1,5 @@
 <view class="page">
-  <!-- 自定义标题栏 -->
-  <view class="nav-bar" style="padding-top: {{statusBarHeight}}px;">
-    <view class="nav-content">
-      <view class="nav-back" bindtap="onBack">
-        <text class="nav-back-icon">‹</text>
-      </view>
-      <text class="nav-title">我的收藏</text>
-      <view class="nav-placeholder"></view>
-    </view>
-  </view>
-
+  <navigation-bar title="我的收藏" />
   <view wx:if="{{loading}}" class="loading-wrap">
     <view class="loading-dots">
       <view class="dot"></view>

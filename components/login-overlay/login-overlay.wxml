@@ -1,0 +1,10 @@
+<view wx:if="{{show}}" class="login-overlay">
+  <view class="login-card">
+    <text class="login-emoji">🔐</text>
+    <text class="login-title">需要登录</text>
+    <text class="login-desc">{{desc}}</text>
+    <view class="login-btn" bindtap="onRetry">
+      <text class="login-btn-text">微信登录</text>
+    </view>
+  </view>
+</view>

@@ -2,15 +2,14 @@
   <!-- 完善个人信息弹窗 -->
   <profile-setup show="{{showProfileSetup}}" bind:done="onProfileSetupDone" />
   <view class="header-bg"></view>
-
-  <view class="header" style="padding-top: {{statusBarHeight}}px;">
-    <view class="header-left">
-      <text class="greeting">{{greeting}}</text>
-      <text class="username">你好，{{nickname}}</text>
-    </view>
-  </view>
-
   <scroll-view scroll-y class="scroll-area" enhanced show-scrollbar="{{false}}">
+
+      <view class="header" style="padding-top: {{statusBarHeight}}px;">
+        <view class="header-left">
+          <text class="greeting">{{greeting}}</text>
+          <text class="username">你好，{{nickname}}</text>
+        </view>
+      </view>
     <!-- Loading -->
     <view wx:if="{{loading}}" class="loading-wrap">
       <view class="loading-dots">
@@ -72,30 +71,21 @@
           <text class="section-title">热门智能体</text>
           <text class="section-more" bindtap="onViewAllAgents">查看全部</text>
         </view>
-        <scroll-view scroll-x class="agent-scroll" enhanced show-scrollbar="{{false}}">
-          <view class="agent-scroll-inner">
-            <view
-              wx:for="{{hotAgents}}"
-              wx:key="id"
-              class="agent-chip"
-              data-id="{{item.id}}"
-              bindtap="onAgentTap"
-            >
-              <view class="agent-chip-icon" style="background: {{item.chipGradient}}">
-                <text class="agent-chip-emoji">{{item.displayIcon}}</text>
-              </view>
-              <text class="agent-chip-name">{{item.name}}</text>
+        <view class="agent-grid">
+          <view
+            wx:for="{{hotAgents}}"
+            wx:key="id"
+            class="agent-grid-item"
+            data-id="{{item.id}}"
+            bindtap="onAgentTap"
+          >
+            <view class="agent-grid-icon" style="background: {{item.chipGradient}}">
+              <text class="agent-grid-emoji">{{item.displayIcon}}</text>
             </view>
-            <view class="agent-chip" bindtap="onViewAllAgents">
-              <view class="agent-chip-icon agent-chip-add">
-                <text class="agent-chip-add-icon">＋</text>
-              </view>
-              <text class="agent-chip-name agent-chip-name-dim">全部</text>
-            </view>
+            <text class="agent-grid-name">{{item.name}}</text>
           </view>
-        </scroll-view>
+        </view>
       </view>
-
       <!-- Recent conversations (logged in only) -->
       <view class="section" wx:if="{{isLoggedIn && recentConversations.length > 0}}">
         <view class="section-header">
@@ -125,7 +115,7 @@
       </view>
 
       <!-- Daily tip -->
-      <view class="section">
+      <view class="section daily-wrap">
         <view class="daily-tip">
           <text class="daily-tip-icon">💡</text>
           <view class="daily-tip-content">
@@ -134,8 +124,8 @@
           </view>
         </view>
       </view>
-    </block>
 
-    <view class="bottom-spacer"></view>
+      <view class="bottom-spacer"></view>
+    </block>
   </scroll-view>
 </view>
