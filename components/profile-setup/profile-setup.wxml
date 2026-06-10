@@ -24,6 +24,7 @@
         value="{{nickname}}"
         bindinput="onNicknameInput"
         bindchange="onNicknameChange" bindblur="onNicknameBlur"
+        adjust-position="{{false}}"
       />
     </view>
 

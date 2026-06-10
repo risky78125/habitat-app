@@ -27,6 +27,7 @@
           bindinput="onSearchInput"
           bindconfirm="onSearchConfirm"
           confirm-type="search"
+          adjust-position="{{false}}"
         />
         <view class="search-clear" wx:if="{{searchQuery}}" bindtap="onSearchClear">
           <text>✕</text>

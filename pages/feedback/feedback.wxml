@@ -26,6 +26,8 @@
         value="{{content}}"
         bindinput="onContentInput"
         auto-height
+        adjust-position="{{false}}"
+        cursor-spacing="20"
       />
       <text class="char-count">{{content.length}}/500</text>
     </view>
@@ -38,6 +40,7 @@
         placeholder-style="color: #C8CADC;"
         value="{{contact}}"
         bindinput="onContactInput"
+        adjust-position="{{false}}"
       />
     </view>
 
