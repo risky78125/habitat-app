@@ -19,7 +19,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 24rpx;
   box-shadow: 0 16rpx 64rpx rgba(0, 0, 0, 0.15);
 }
 
@@ -27,12 +26,13 @@
   font-size: 36rpx;
   font-weight: 800;
   color: #222222;
+  margin-bottom: 24rpx;
 }
 
 .subtitle {
   font-size: 26rpx;
   color: #8B8FA8;
-  margin-bottom: 16rpx;
+  margin-bottom: 24rpx;
 }
 
 /* Avatar */
@@ -92,10 +92,10 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 12rpx;
 }
 
 .input-label {
+  margin-bottom: 12rpx;
   font-size: 26rpx;
   font-weight: 600;
   color: #222222;
@@ -118,11 +118,11 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 16rpx;
   margin-top: 16rpx;
 }
 
 .btn-submit {
+  margin-bottom: 16rpx;
   width: 100%;
   height: 88rpx;
   border-radius: 24rpx;

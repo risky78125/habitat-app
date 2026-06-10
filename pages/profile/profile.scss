@@ -57,12 +57,12 @@ $text-secondary: #8B8FA8;
 .user-row {
   display: flex;
   align-items: center;
-  gap: 24rpx;
   margin-bottom: 32rpx;
 }
 
 .user-avatar-wrap {
   position: relative;
+  margin-right: 24rpx;
 }
 
 .user-avatar {
@@ -112,10 +112,10 @@ $text-secondary: #8B8FA8;
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 8rpx;
 }
 
 .user-name {
+  margin-bottom: 8rpx;
   font-size: 40rpx;
   font-weight: 800;
   color: #fff;
@@ -173,10 +173,10 @@ $text-secondary: #8B8FA8;
 .token-left {
   display: flex;
   flex-direction: column;
-  gap: 4rpx;
 }
 
 .token-label {
+  margin-bottom: 4rpx;
   font-size: 24rpx;
   color: rgba(255, 255, 255, 0.7);
 }
@@ -220,10 +220,10 @@ $text-secondary: #8B8FA8;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4rpx;
 }
 
 .stat-value {
+  margin-bottom: 4rpx;
   font-size: 32rpx;
   font-weight: 800;
   color: #fff;
@@ -270,7 +270,6 @@ $text-secondary: #8B8FA8;
 .menu-item {
   display: flex;
   align-items: center;
-  gap: 24rpx;
   padding: 28rpx 32rpx;
   border-bottom: 1rpx solid rgba(91, 108, 255, 0.06);
   position: relative;
@@ -288,6 +287,7 @@ $text-secondary: #8B8FA8;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  margin-right: 24rpx;
 }
 
 .menu-icon-purple { background: rgba(91, 108, 255, 0.1); }
@@ -341,7 +341,12 @@ $text-secondary: #8B8FA8;
 /* Token actions */
 .token-actions {
   display: flex;
-  gap: 12rpx;
+}
+
+.checkin-btn, .ad-btn {
+  margin-right: 12rpx;
+
+  &:last-child { margin-right: 0; }
 }
 
 .ad-btn {

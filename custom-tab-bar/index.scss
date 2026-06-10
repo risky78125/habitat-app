@@ -20,7 +20,12 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 4rpx;
+}
+
+.tab-icon {
+  width: 44rpx;
+  height: 44rpx;
+  margin-bottom: 4rpx;
 }
 
 .tab-icon {

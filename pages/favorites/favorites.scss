@@ -20,11 +20,10 @@ $error: #FF4D6A;
   align-items: center;
   justify-content: center;
   min-height: 60vh;
-  gap: 16rpx;
 }
 
-.empty-icon { font-size: 80rpx; }
-.empty-text { font-size: 32rpx; font-weight: 600; color: $text-primary; }
+.empty-icon { font-size: 80rpx; margin-bottom: 16rpx; }
+.empty-text { font-size: 32rpx; font-weight: 600; color: $text-primary; margin-bottom: 16rpx; }
 .empty-hint { font-size: 26rpx; color: $text-secondary; text-align: center; padding: 0 40rpx; }
 
 /* List */
@@ -33,7 +32,6 @@ $error: #FF4D6A;
   padding: 24rpx 32rpx;
   display: flex;
   flex-direction: column;
-  gap: 16rpx;
 }
 
 .agent-card {
@@ -43,13 +41,13 @@ $error: #FF4D6A;
   background: #fff;
   border-radius: 24rpx;
   box-shadow: 0 2rpx 12rpx rgba(91, 108, 255, 0.04);
+  margin-bottom: 16rpx;
 }
 
 .agent-main {
   flex: 1;
   display: flex;
   align-items: center;
-  gap: 20rpx;
   min-width: 0;
 }
 
@@ -63,6 +61,7 @@ $error: #FF4D6A;
   justify-content: center;
   flex-shrink: 0;
   overflow: hidden;
+  margin-right: 20rpx;
 }
 
 .agent-avatar-img {
@@ -78,7 +77,6 @@ $error: #FF4D6A;
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 8rpx;
   min-width: 0;
 }
 
@@ -89,6 +87,7 @@ $error: #FF4D6A;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  margin-bottom: 8rpx;
 }
 
 .agent-desc {
@@ -101,7 +100,6 @@ $error: #FF4D6A;
 
 .agent-meta {
   display: flex;
-  gap: 12rpx;
   align-items: center;
 }
 
@@ -111,6 +109,7 @@ $error: #FF4D6A;
   background: rgba(91, 108, 255, 0.08);
   color: $primary;
   border-radius: 8rpx;
+  margin-right: 12rpx;
 }
 
 .agent-cost {

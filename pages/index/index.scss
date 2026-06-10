@@ -30,13 +30,13 @@ $accent: #FFB86B;
 .header-left {
   display: flex;
   flex-direction: column;
-  gap: 4rpx;
 }
 
 .greeting {
   font-size: 26rpx;
   color: $text-secondary;
   font-weight: 500;
+  margin-bottom: 4rpx;
 }
 
 .username {
@@ -165,7 +165,6 @@ $accent: #FFB86B;
 .featured-cta {
   display: flex;
   align-items: center;
-  gap: 4rpx;
   padding: 12rpx 24rpx;
   border-radius: 100rpx;
   background: rgba(255, 255, 255, 0.9);
@@ -181,6 +180,7 @@ $accent: #FFB86B;
   font-size: 24rpx;
   font-weight: 700;
   color: $primary;
+  margin-left: 4rpx;
 }
 
 /* Sections */
@@ -210,21 +210,24 @@ $accent: #FFB86B;
 .quick-grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 20rpx;
 }
 
 .quick-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12rpx;
   padding: 24rpx 0;
   border-radius: 32rpx;
   flex: 1;
+  margin-right: 20rpx;
+  margin-bottom: 20rpx;
+
+  &:nth-child(2n) { margin-right: 0; }
 }
 
 .quick-icon {
   font-size: 44rpx;
+  margin-bottom: 12rpx;
 }
 .quick-label {
   font-size: 24rpx;
@@ -233,18 +236,19 @@ $accent: #FFB86B;
 /* Agent grid */
 .agent-grid {
   display: flex;
-  gap: 20rpx;
 }
 
 .agent-grid-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12rpx;
   padding: 24rpx 0;
   border-radius: 32rpx;
   width: calc(25% - 15rpx);
   flex-shrink: 0;
+  margin-right: 20rpx;
+
+  &:last-child { margin-right: 0; }
 }
 
 .agent-grid-icon {
@@ -255,6 +259,7 @@ $accent: #FFB86B;
   align-items: center;
   justify-content: center;
   box-shadow: 0 12rpx 40rpx rgba(91, 108, 255, 0.2);
+  margin-bottom: 12rpx;
 }
 .agent-grid-emoji {
   font-size: 48rpx;
@@ -280,7 +285,6 @@ $accent: #FFB86B;
   margin-bottom: 16rpx;
   display: flex;
   align-items: center;
-  gap: 24rpx;
   padding: 28rpx 32rpx;
   background: #fff;
   border: 1rpx solid rgba(91, 108, 255, 0.08);
@@ -297,6 +301,7 @@ $accent: #FFB86B;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  margin-right: 24rpx;
 }
 
 .conv-icon-text {
@@ -343,7 +348,6 @@ $accent: #FFB86B;
 /* Daily tip */
 .daily-tip {
   display: flex;
-  gap: 24rpx;
   padding: 32rpx;
   border-radius: 32rpx;
   background: linear-gradient(135deg, rgba(91, 108, 255, 0.06), rgba(139, 127, 255, 0.06));
@@ -353,12 +357,12 @@ $accent: #FFB86B;
 .daily-tip-icon {
   font-size: 48rpx;
   flex-shrink: 0;
+  margin-right: 24rpx;
 }
 
 .daily-tip-content {
   display: flex;
   flex-direction: column;
-  gap: 8rpx;
 }
 
 .daily-tip-label {
@@ -366,6 +370,7 @@ $accent: #FFB86B;
   font-weight: 700;
   color: $primary;
   letter-spacing: 0.05em;
+  margin-bottom: 8rpx;
 }
 
 .daily-tip-text {

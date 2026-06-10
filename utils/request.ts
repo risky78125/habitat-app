@@ -175,6 +175,30 @@ async function requestSSE(conversationId: number, content: string, callbacks: SS
 
   let buffer = ''
   let currentEvent = SSE.DEFAULT_EVENT
+  let currentData = ''
+
+  const dispatch = (event: string, data: string) => {
+    if (!data) return true
+    if (data === SSE.DONE_SIGNAL) { (callbacks.onDone) && callbacks.onDone(); return false }
+    switch (event) {
+      case 'thinking': (callbacks.onThinkingStart) && callbacks.onThinkingStart(); break
+      case 'thinking_done': (callbacks.onThinkingEnd) && callbacks.onThinkingEnd(); break
+      case 'message':
+        try {
+          const parsed = JSON.parse(data)
+          const text = parsed.content || parsed.data || parsed.text || data
+          ;(callbacks.onMessage) && callbacks.onMessage(text)
+        } catch { (callbacks.onMessage) && callbacks.onMessage(data) }
+        break
+      case 'error':
+        try {
+          const parsed = JSON.parse(data)
+          ;(callbacks.onError) && callbacks.onError(parsed.message || parsed.error || data)
+        } catch { (callbacks.onError) && callbacks.onError(data) }
+        break
+    }
+    return true
+  }
 
   if (typeof reqTask.onChunkReceived === 'function') { reqTask.onChunkReceived((res: any) => {
     try {
@@ -185,51 +209,29 @@ async function requestSSE(conversationId: number, content: string, callbacks: SS
       buffer = lines.pop() || ''
 
       for (const line of lines) {
+        // 空行 = 事件结束
+        if (line.trim() === '') {
+          const data = currentData
+          currentData = ''
+          if (!dispatch(currentEvent, data)) return
+          currentEvent = SSE.DEFAULT_EVENT
+          continue
+        }
+
         if (line.startsWith(SSE.EVENT_PREFIX)) {
           currentEvent = line.slice(SSE.EVENT_PREFIX.length).trim()
           continue
         }
-        if (!line.startsWith(SSE.DATA_PREFIX)) continue
 
-        const data = line.slice(SSE.DATA_PREFIX.length).trim()
-        if (data === SSE.DONE_SIGNAL) {
-          (callbacks.onDone) && callbacks.onDone()
-          return
+        if (line.startsWith(SSE.DATA_PREFIX)) {
+          // 多个 data: 行用 \n 拼接
+          const d = line.slice(SSE.DATA_PREFIX.length).replace(/^ /, '')
+          currentData += (currentData ? '\n' : '') + d
+          continue
         }
-        if (!data) continue
 
-        // Dispatch by event type
-        switch (currentEvent) {
-          case 'thinking':
-            (callbacks.onThinkingStart) && callbacks.onThinkingStart()
-            break
-          case 'thinking_done':
-            (callbacks.onThinkingEnd) && callbacks.onThinkingEnd()
-            break
-          case 'message':
-            try {
-              const parsed = JSON.parse(data)
-              const text = parsed.content || parsed.data || parsed.text || data
-              (callbacks.onMessage) && callbacks.onMessage(text)
-            } catch {
-              (callbacks.onMessage) && callbacks.onMessage(data)
-            }
-            break
-          case 'error':
-            try {
-              const parsed = JSON.parse(data)
-              const errMsg = parsed.message || parsed.error || data
-              (callbacks.onError) && callbacks.onError(errMsg)
-            } catch {
-              (callbacks.onError) && callbacks.onError(data)
-            }
-            break
-          default:
-            // Unknown event type — skip
-            break
-        }
-        // Reset to default for next event
-        currentEvent = SSE.DEFAULT_EVENT
+        // 不匹配任何前缀 → JSON 内容内部的换行，拼到 currentData
+        currentData += '\n' + line
       }
     } catch (e) {}
   }); }

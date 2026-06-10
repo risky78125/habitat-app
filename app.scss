@@ -120,16 +120,17 @@ page {
   align-items: center;
   justify-content: center;
   padding: 120rpx 0;
-  gap: 16rpx;
 
   .empty-icon {
     font-size: 96rpx;
+    margin-bottom: 16rpx;
   }
 
   .empty-title {
     font-size: 32rpx;
     font-weight: 700;
     color: $text-primary;
+    margin-bottom: 16rpx;
   }
 
   .empty-desc {

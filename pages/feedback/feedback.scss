@@ -26,11 +26,13 @@ $text-secondary: #8B8FA8;
 
 .category-row {
   display: flex;
-  gap: 16rpx;
 }
 
 .category-chip {
   padding: 16rpx 32rpx;
+  margin-right: 16rpx;
+
+  &:last-child { margin-right: 0; }
   background: #fff;
   border-radius: 40rpx;
   border: 2rpx solid rgba(91, 108, 255, 0.12);

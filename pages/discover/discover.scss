@@ -12,10 +12,10 @@ $text-secondary: #8B8FA8;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2rpx;
 }
 
 .header-title {
+  margin-bottom: 2rpx;
   font-size: 32rpx;
   font-weight: 800;
   color: $text-primary;
@@ -94,7 +94,6 @@ $text-secondary: #8B8FA8;
 
 .category-row {
   display: flex;
-  gap: 16rpx;
   height: 100%;
   align-items: center;
   padding: 0 32rpx;
@@ -107,6 +106,9 @@ $text-secondary: #8B8FA8;
   flex: 1;
   height: 64rpx;
   border-radius: 16rpx;
+  margin-right: 16rpx;
+
+  &:last-child { margin-right: 0; }
   background: #fff;
   border: 2rpx solid rgba(91, 108, 255, 0.15);
   font-size: 26rpx;
@@ -138,11 +140,10 @@ $text-secondary: #8B8FA8;
   flex-direction: column;
   align-items: center;
   padding: 120rpx 48rpx;
-  gap: 16rpx;
 }
 
-.empty-icon { font-size: 80rpx; }
-.empty-title { font-size: 32rpx; font-weight: 700; color: $text-primary; }
+.empty-icon { font-size: 80rpx; margin-bottom: 16rpx; }
+.empty-title { font-size: 32rpx; font-weight: 700; color: $text-primary; margin-bottom: 16rpx; }
 .empty-desc { font-size: 26rpx; color: $text-secondary; }
 
 /* Agent list */
@@ -150,15 +151,14 @@ $text-secondary: #8B8FA8;
   padding: 0 32rpx;
   display: flex;
   flex-direction: column;
-  gap: 20rpx;
 }
 
 /* Agent card — horizontal: avatar left, info right */
 .agent-card {
   display: flex;
   align-items: center;
-  gap: 24rpx;
   padding: 28rpx;
+  margin-bottom: 20rpx;
   background: #fff;
   border: 1rpx solid rgba(91, 108, 255, 0.08);
   border-radius: 32rpx;
@@ -173,6 +173,7 @@ $text-secondary: #8B8FA8;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  margin-right: 24rpx;
   box-shadow: 0 8rpx 24rpx rgba(91, 108, 255, 0.15);
 }
 
@@ -185,10 +186,10 @@ $text-secondary: #8B8FA8;
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 6rpx;
 }
 
 .card-name {
+  margin-bottom: 6rpx;
   font-size: 30rpx;
   font-weight: 700;
   color: $text-primary;
@@ -208,7 +209,7 @@ $text-secondary: #8B8FA8;
 .card-meta {
   display: flex;
   align-items: center;
-  gap: 12rpx;
+  margin-top: 2rpx;
   margin-top: 2rpx;
 }
 

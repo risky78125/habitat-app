@@ -22,7 +22,7 @@ $text-secondary: #8B8FA8;
 
 /* -- Conversation items -- */
 .conv-item {
-  display: flex; align-items: center; gap: 24rpx;
+  display: flex; align-items: center;
   padding: 28rpx; background: #fff; border-radius: 32rpx;
   border: 1rpx solid rgba(91, 108, 255, 0.08);
   box-shadow: 0 4rpx 24rpx rgba(91, 108, 255, 0.06);
@@ -32,19 +32,20 @@ $text-secondary: #8B8FA8;
 .conv-avatar {
   width: 96rpx; height: 96rpx; border-radius: 28rpx; flex-shrink: 0;
   display: flex; align-items: center; justify-content: center;
+  margin-right: 24rpx;
 }
 .conv-avatar-text { font-size: 44rpx; }
 
-.conv-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 8rpx; }
+.conv-info { flex: 1; min-width: 0; display: flex; flex-direction: column; }
 
-.conv-row { display: flex; align-items: center; justify-content: space-between; }
+.conv-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8rpx; }
 .conv-title {
   font-size: 28rpx; font-weight: 700; color: $text-primary;
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 340rpx;
 }
 .conv-time { font-size: 22rpx; color: $text-secondary; flex-shrink: 0; }
-.conv-meta { display: flex; align-items: center; gap: 16rpx; }
-.conv-count { font-size: 24rpx; color: $text-secondary; }
+.conv-meta { display: flex; align-items: center; }
+.conv-count { font-size: 24rpx; color: $text-secondary; margin-right: 16rpx; }
 .conv-tokens {
   font-size: 22rpx; color: $primary; padding: 4rpx 12rpx; border-radius: 8rpx;
   background: rgba(91, 108, 255, 0.08);
@@ -59,10 +60,10 @@ $text-secondary: #8B8FA8;
 /* -- States: empty / error / load-more -- */
 .state-placeholder {
   display: flex; flex-direction: column; align-items: center; justify-content: center;
-  padding: 80rpx 48rpx; gap: 16rpx;
+  padding: 80rpx 48rpx;
 }
-.state-icon { font-size: 80rpx; margin-bottom: 8rpx; }
-.state-title { font-size: 32rpx; font-weight: 700; color: $text-primary; }
+.state-icon { font-size: 80rpx; margin-bottom: 16rpx; }
+.state-title { font-size: 32rpx; font-weight: 700; color: $text-primary; margin-bottom: 16rpx; }
 .state-desc { font-size: 26rpx; color: $text-secondary; text-align: center; }
 
 .load-more {

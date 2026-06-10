@@ -1,132 +1,73 @@
 <view class="page">
-  <!-- Login overlay -->
   <login-overlay show="{{loginFailed}}" desc="登录后即可与智能体对话" bind:retry="onRetryLogin" />
 
   <navigation-bar>
     <view slot="center" wx:if="{{agent}}" class="nav-agent-info">
-      <view class="nav-avatar">
-        <text class="nav-avatar-text">🤖</text>
-        <view class="nav-online-dot"></view>
-      </view>
+      <view class="nav-avatar"><text class="nav-avatar-text">🤖</text><view class="nav-online-dot"></view></view>
       <view class="nav-info">
         <text class="nav-name">{{agent.name}}</text>
-        <view class="nav-status">
-          <view class="nav-status-dot"></view>
-          <text class="nav-status-text">在线</text>
-        </view>
+        <view class="nav-status"><view class="nav-status-dot"></view><text class="nav-status-text">在线</text></view>
       </view>
     </view>
-    <view slot="center" wx:else>
-      <text class="nav-name">对话</text>
-    </view>
+    <view slot="center" wx:else><text class="nav-name">对话</text></view>
   </navigation-bar>
 
-  <scroll-view
-    type="list"
-    scroll-y
-    class="messages-area"
-    scroll-into-view="{{scrollIntoViewId}}"
-    enhanced
-    show-scrollbar="{{false}}"
-    scroll-with-animation
-  >
+  <scroll-view type="list" scroll-y class="messages-area" scroll-into-view="{{scrollIntoViewId}}" show-scrollbar="{{false}}" scroll-with-animation>
     <view class="messages-pad">
-    <loading-dots show="{{loading}}" />
+      <loading-dots show="{{loading}}" />
 
-    <block wx:if="{{!loading}}">
-      <!-- Empty state -->
-      <view wx:if="{{messages.length === 0}}" class="welcome-prompt">
-        <text class="welcome-icon">💬</text>
-        <text class="welcome-title" wx:if="{{agent}}">和 {{agent.name}} 打个招呼吧</text>
-        <text class="welcome-title" wx:else>开始你的对话</text>
-        <text class="welcome-desc">在下方输入框发送消息，开启智能对话体验</text>
-      </view>
-
-      <!-- Messages -->
-      <view wx:for="{{messages}}" wx:key="id" id="msg-{{item.id}}" class="msg-row {{item.role === 'user' ? 'msg-row-user' : 'msg-row-ai'}}">
-
-        <!-- User avatar (first in DOM for row-reverse → appears on right) -->
-        <view wx:if="{{item.role === 'user'}}" class="msg-avatar msg-avatar-user">
-          <image wx:if="{{userAvatarUrl}}" class="msg-avatar-img" src="{{userAvatarUrl}}" mode="aspectFill" />
-          <text wx:else class="msg-avatar-text">{{userAvatarInitial}}</text>
+      <block wx:if="{{!loading}}">
+        <view wx:if="{{messages.length === 0}}" class="welcome-prompt">
+          <text class="welcome-icon">💬</text>
+          <text class="welcome-title" wx:if="{{agent}}">和 {{agent.name}} 打个招呼吧</text>
+          <text class="welcome-title" wx:else>开始你的对话</text>
+          <text class="welcome-desc">在下方输入框发送消息，开启智能对话体验</text>
         </view>
 
-        <!-- AI avatar (first in DOM for normal row → appears on left) -->
-        <view wx:if="{{item.role === 'assistant'}}" class="msg-avatar msg-avatar-ai">
-          <text class="msg-avatar-text">🤖</text>
-        </view>
-
-        <view class="msg-bubble-wrap {{item.role === 'user' ? 'msg-bubble-wrap-user' : 'msg-bubble-wrap-ai'}}">
-          <view class="msg-bubble {{item.role === 'user' ? 'msg-bubble-user' : 'msg-bubble-ai'}}" data-role="{{item.role}}" data-content="{{item.content}}" bindtap="onCopyMessage">
-            <towxml wx:if="{{item.role === 'assistant' && item.markdownNodes}}" nodes="{{item.markdownNodes}}" class="msg-text msg-text-ai"></towxml>
-            <text wx:else class="msg-text {{item.role === 'user' ? 'msg-text-user' : 'msg-text-ai'}}">{{item.content}}</text>
-            <view wx:if="{{item.isStreaming}}" class="typing-inline">
-              <view class="typing-dot"></view>
-              <view class="typing-dot"></view>
-              <view class="typing-dot"></view>
-            </view>
+        <view wx:for="{{messages}}" wx:key="id" id="msg-{{item.id}}" class="msg-row {{item.role === 'user' ? 'msg-row-you' : 'msg-row-bot'}}">
+          <view class="msg-avatar {{item.role === 'user' ? 'msg-avatar-you' : 'msg-avatar-bot'}}">
+            <image wx:if="{{userAvatarUrl && item.role === 'user'}}" class="msg-avatar-img" src="{{userAvatarUrl}}" mode="aspectFill" />
+            <text wx:else class="msg-avatar-text">{{item.role === 'user' ? userAvatarInitial : '🤖'}}</text>
           </view>
-          <text class="msg-time">{{item.time}}</text>
-        </view>
-      </view>
 
-      <!-- Typing indicator -->
-      <view wx:if="{{showTypingIndicator}}" class="msg-row msg-row-ai">
-        <view class="msg-avatar msg-avatar-ai">
-          <text class="msg-avatar-text">🤖</text>
-        </view>
-        <view class="msg-bubble-wrap msg-bubble-wrap-ai">
-          <view class="msg-bubble msg-bubble-ai typing-bubble">
-            <view class="loading-dots">
-              <view class="dot"></view>
-              <view class="dot"></view>
-              <view class="dot"></view>
+          <view class="msg-body {{item.role === 'user' ? 'msg-body-you' : 'msg-body-bot'}}">
+            <view class="msg-bubble {{item.role === 'user' ? 'msg-bubble-you' : 'msg-bubble-bot'}}" data-role="{{item.role}}" data-content="{{item.content}}" bindtap="onCopyMessage">
+              <rich-text wx:if="{{item.role === 'assistant' && item.htmlContent && item.htmlContent !== item.content}}" nodes="{{item.htmlContent}}" mode="compat" class="msg-text"></rich-text>
+              <text wx:else class="msg-text {{item.role === 'user' ? 'msg-text-you' : 'msg-text-bot'}}">{{item.content}}</text>
+              <view wx:if="{{item.isStreaming}}" class="typing-inline">
+                <view class="typing-dot"></view><view class="typing-dot"></view><view class="typing-dot"></view>
+              </view>
             </view>
+            <text class="msg-time">{{item.time}}</text>
           </view>
         </view>
-      </view>
-    </block>
 
-    <view id="bottom-anchor" class="messages-bottom-spacer"></view>
+        <view wx:if="{{showTypingIndicator}}" class="msg-row msg-row-bot">
+          <view class="msg-avatar msg-avatar-bot"><text class="msg-avatar-text">🤖</text></view>
+          <view class="msg-body msg-body-bot">
+            <view class="msg-bubble msg-bubble-bot typing-bubble"><loading-dots show="{{true}}" /></view>
+          </view>
+        </view>
+      </block>
+
+      <view id="bottom-anchor" class="messages-bottom-spacer"></view>
     </view>
   </scroll-view>
 
-  <!-- Thinking indicator -->
   <view wx:if="{{isThinking}}" class="thinking-bar">
     <view class="thinking-content">
-      <view class="thinking-dots">
-        <view class="thinking-dot"></view>
-        <view class="thinking-dot"></view>
-        <view class="thinking-dot"></view>
-      </view>
+      <view class="thinking-dots"><view class="thinking-dot"></view><view class="thinking-dot"></view><view class="thinking-dot"></view></view>
       <text class="thinking-text">正在思考中</text>
     </view>
   </view>
 
   <view class="input-bar" style="{{keyboardHeight > 0 ? 'padding-bottom: 12rpx;' : ''}}">
     <view class="input-inner">
-      <input
-        class="input-field"
-        placeholder="和我说点什么..."
-        placeholder-style="color: #A8ABBC; font-size: 30rpx;"
-        value="{{inputText}}"
-        bindinput="onInputText"
-        bindconfirm="onSendMessage"
-        bindfocus="onInputFocus"
-        bindblur="onInputBlur"
-        confirm-type="send"
-        adjust-position="{{false}}"
-        cursor-spacing="20"
-      />
-      <view
-        class="send-btn {{inputText ? 'send-btn-active' : ''}}"
-        bindtap="onSendMessage"
-      >
+      <input class="input-field" placeholder="和我说点什么..." placeholder-style="color: #A8ABBC; font-size: 30rpx;" value="{{inputText}}" bindinput="onInputText" bindconfirm="onSendMessage" bindfocus="onInputFocus" bindblur="onInputBlur" confirm-type="send" adjust-position="{{false}}" cursor-spacing="20" />
+      <view class="send-btn {{inputText ? 'send-btn-active' : ''}}" bindtap="onSendMessage">
         <image class="send-icon-img" src="/assets/icons/send{{inputText ? '-active' : ''}}.svg" mode="aspectFit" />
       </view>
     </view>
   </view>
-
-  <!-- 键盘占位符 -->
-  <view style="height: {{keyboardHeight}}px; flex-shrink: 0; transition: height 0.1s;"></view>
+  <view style="height: {{keyboardHeight}}px; flex-shrink: 0;"></view>
 </view>
