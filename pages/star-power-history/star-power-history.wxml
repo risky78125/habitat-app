@@ -1,7 +1,8 @@
+<wxs module="tx" src="./tx-types.wxs" />
+
 <view class="page">
   <navigation-bar title="星力明细" />
 
-  <!-- 筛选标签 -->
   <view class="filter-bar">
     <view class="filter-item {{filter === 'all' ? 'active' : ''}}" data-filter="all" bindtap="onFilterChange">
       <text class="filter-text">全部</text>
@@ -24,22 +25,18 @@
       </view>
 
       <view wx:else class="list">
-        <view class="item" wx:for="{{filteredTransactions}}" wx:key="id">
-          <view class="item-left">
-            <view class="item-icon-wrap {{item.amount > 0 ? 'income' : 'expense'}}">
-              <text class="item-icon">{{item.type === 'register' ? '🎁' : item.type === 'checkin' ? '📅' : item.type === 'ad' ? '📺' : item.type === 'conversation' ? '💬' : '⚙️'}}</text>
-            </view>
-            <view class="item-info">
-              <text class="item-type">{{item.type === 'register' ? '注册赠送' : item.type === 'checkin' ? '每日签到' : item.type === 'ad' ? '广告奖励' : item.type === 'conversation' ? '对话消耗' : item.type === 'adjust' ? '手动调整' : item.type}}</text>
-              <text class="item-remark" wx:if="{{item.remark}}">{{item.remark}}</text>
-              <text class="item-time">{{item.createdAt}}</text>
-            </view>
+        <view class="tx-item" wx:for="{{filteredTransactions}}" wx:key="id">
+          <view class="tx-icon-wrap {{item.amount > 0 ? 'income' : 'expense'}}">
+            <text class="tx-icon">{{tx.icon(item.type)}}</text>
           </view>
-          <view class="item-right">
-            <text class="item-amount {{item.amount > 0 ? 'income' : 'expense'}}">
-              {{item.amount > 0 ? '+' : ''}}{{item.amount}}
-            </text>
-            <text class="item-balance">余额 {{item.balanceAfter}}</text>
+          <view class="tx-body">
+            <text class="tx-type">{{tx.label(item.type)}}</text>
+            <text class="tx-remark" wx:if="{{item.remark}}">{{item.remark}}</text>
+            <text class="tx-time">{{item.displayTime}}</text>
+          </view>
+          <view class="tx-right">
+            <text class="tx-amount {{item.amount > 0 ? 'income' : 'expense'}}">{{item.amount > 0 ? '+' : ''}}{{item.amount}}</text>
+            <text class="tx-balance">余额 {{item.balanceAfter}}</text>
           </view>
         </view>
 

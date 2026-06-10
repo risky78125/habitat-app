@@ -1,11 +1,15 @@
 import { getStarPowerTransactions, type StarPowerTransaction } from '../../utils/api'
+import { formatRelativeTime } from '../../utils/util'
 import { PAGE, MSG as M } from '../../config'
+
+interface DisplayTransaction extends StarPowerTransaction {
+  displayTime: string
+}
 
 Component({
   data: {
-    statusBarHeight: 0,
     transactions: [] as StarPowerTransaction[],
-    filteredTransactions: [] as StarPowerTransaction[],
+    filteredTransactions: [] as DisplayTransaction[],
     loading: true,
     loadingMore: false,
     hasMore: true,
@@ -16,16 +20,11 @@ Component({
 
   lifetimes: {
     attached() {
-      this.setData({ statusBarHeight: wx.getWindowInfo().statusBarHeight })
       this.loadTransactions()
     },
   },
 
   methods: {
-    onBack() {
-      wx.navigateBack()
-    },
-
     onFilterChange(e: any) {
       const filter = e.currentTarget.dataset.filter
       this.setData({ filter })
@@ -40,7 +39,11 @@ Component({
       } else if (filter === 'expense') {
         filtered = transactions.filter(t => t.amount < 0)
       }
-      this.setData({ filteredTransactions: filtered })
+      const display = filtered.map(t => ({
+        ...t,
+        displayTime: formatRelativeTime(t.createdAt),
+      }))
+      this.setData({ filteredTransactions: display })
     },
 
     async loadTransactions(append = false) {

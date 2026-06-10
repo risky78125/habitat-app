@@ -1,0 +1,28 @@
+var labels = {
+  register_bonus: '注册赠送',
+  checkin: '每日签到',
+  ad_reward: '广告奖励',
+  chat_cost: '对话消耗',
+  admin_adjust: '手动调整',
+};
+
+var icons = {
+  register_bonus: '🎁',
+  checkin: '📅',
+  ad_reward: '📺',
+  chat_cost: '💬',
+  admin_adjust: '⚙️',
+};
+
+function label(type) {
+  return labels[type] || type;
+}
+
+function icon(type) {
+  return icons[type] || '⚙️';
+}
+
+module.exports = {
+  label: label,
+  icon: icon,
+};
