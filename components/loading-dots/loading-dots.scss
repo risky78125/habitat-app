@@ -1,0 +1,36 @@
+.loading-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 120rpx 0;
+}
+
+.dots-row {
+  display: flex;
+  align-items: center;
+}
+
+.dot {
+  width: 14rpx;
+  height: 14rpx;
+  border-radius: 14rpx;
+  background: #5B6CFF;
+  opacity: 0.5;
+  animation: dot-bounce 1.2s infinite ease-in-out both;
+  overflow: hidden;
+
+  &:nth-child(2) {
+    animation-delay: 0.20s;
+    margin-left: 12rpx;
+    margin-right: 12rpx;
+  }
+
+  &:nth-child(3) {
+    animation-delay: 0.40s;
+  }
+}
+
+@keyframes dot-bounce {
+  0%, 80%, 100% { transform: translateY(0); opacity: 0.3; }
+  40% { transform: translateY(-12rpx); opacity: 0.8; }
+}

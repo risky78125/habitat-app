@@ -3,6 +3,7 @@
   "disableScroll": true,
   "backgroundColor": "#F7F8FC",
   "usingComponents": {
-    "navigation-bar": "/components/navigation-bar/navigation-bar"
+    "navigation-bar": "/components/navigation-bar/navigation-bar",
+    "loading-dots": "/components/loading-dots/loading-dots"
   }
 }

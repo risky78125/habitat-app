@@ -15,13 +15,7 @@
   </view>
 
   <scroll-view type="list" scroll-y class="list-area" enhanced show-scrollbar="{{false}}">
-    <view wx:if="{{loading}}" class="loading-wrap">
-      <view class="loading-dots">
-        <view class="dot"></view>
-        <view class="dot"></view>
-        <view class="dot"></view>
-      </view>
-    </view>
+    <loading-dots show="{{loading}}" />
 
     <block wx:if="{{!loading}}">
       <view wx:if="{{filteredTransactions.length === 0}}" class="empty">

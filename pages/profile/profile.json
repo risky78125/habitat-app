@@ -2,6 +2,7 @@
   "navigationStyle": "custom",
   "usingComponents": {
     "profile-setup": "/components/profile-setup/profile-setup",
-    "login-overlay": "/components/login-overlay/login-overlay"
+    "login-overlay": "/components/login-overlay/login-overlay",
+    "loading-dots": "/components/loading-dots/loading-dots"
   }
 }

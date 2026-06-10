@@ -3,6 +3,7 @@
   "usingComponents": {
     "navigation-bar": "/components/navigation-bar/navigation-bar",
     "towxml": "/towxml/towxml",
-    "login-overlay": "/components/login-overlay/login-overlay"
+    "login-overlay": "/components/login-overlay/login-overlay",
+    "loading-dots": "/components/loading-dots/loading-dots"
   }
 }

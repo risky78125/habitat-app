@@ -2,6 +2,7 @@
   "navigationStyle": "custom",
   "disableScroll": true,
   "usingComponents": {
-    "profile-setup": "/components/profile-setup/profile-setup"
+    "profile-setup": "/components/profile-setup/profile-setup",
+    "loading-dots": "/components/loading-dots/loading-dots"
   }
 }

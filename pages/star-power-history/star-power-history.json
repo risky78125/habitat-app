@@ -1,6 +1,7 @@
 {
   "navigationStyle": "custom",
   "usingComponents": {
-    "navigation-bar": "/components/navigation-bar/navigation-bar"
+    "navigation-bar": "/components/navigation-bar/navigation-bar",
+    "loading-dots": "/components/loading-dots/loading-dots"
   }
 }

@@ -5,14 +5,7 @@
   <!-- Profile setup modal -->
   <profile-setup show="{{showProfileSetup}}" bind:done="onProfileSetupDone" />
 
-  <!-- Loading -->
-  <view wx:if="{{loading && !loginFailed}}" class="loading-wrap">
-    <view class="loading-dots">
-      <view class="dot"></view>
-      <view class="dot"></view>
-      <view class="dot"></view>
-    </view>
-  </view>
+  <loading-dots show="{{loading && !loginFailed}}" />
 
   <block wx:if="{{!loading && !loginFailed && userInfo}}">
     <scroll-view type="list" scroll-y class="settings-area" enhanced show-scrollbar="{{false}}">
