@@ -5,10 +5,10 @@ Component({
     statusBarHeight: 0,
     version: APP_VERSION,
     features: [
-      { icon: '/assets/icons-new/user-group.svg', title: '多样的 AI Agent', desc: '提供多种专业领域的 AI 助手' },
-      { icon: '/assets/icons-new/message.svg', title: '深度对话', desc: '支持多轮对话，理解上下文' },
-      { icon: '/assets/icons-new/ranking.svg', title: '智能报告', desc: '基于对话内容生成专业报告' },
-      { icon: '/assets/icons-new/usd.svg', title: 'Token 经济', desc: '灵活的 Token 系统，签到获取' },
+      { icon: '/assets/icons/user-group.svg', title: '多样的 AI Agent', desc: '提供多种专业领域的 AI 助手' },
+      { icon: '/assets/icons/message.svg', title: '深度对话', desc: '支持多轮对话，理解上下文' },
+      { icon: '/assets/icons/ranking.svg', title: '智能报告', desc: '基于对话内容生成专业报告' },
+      { icon: '/assets/icons/usd.svg', title: 'Token 经济', desc: '灵活的 Token 系统，签到获取' },
     ],
     links: [
       { key: 'feedback', title: '意见反馈', desc: '帮助我们做得更好' },

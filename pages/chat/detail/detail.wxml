@@ -59,7 +59,7 @@
     <view class="input-inner">
       <input class="input-field" placeholder="和我说点什么..." placeholder-style="color: #A8ABBC; font-size: 30rpx;" value="{{inputText}}" bindinput="onInputText" bindconfirm="onSendMessage" bindfocus="onInputFocus" bindblur="onInputBlur" confirm-type="send" adjust-position="{{false}}" cursor-spacing="20" />
       <view class="send-btn {{inputText ? 'send-btn-active' : ''}}" bindtap="onSendMessage">
-        <image class="send-icon-img" src="/assets/icons-new/arrow-up3{{inputText ? '-active' : ''}}.svg" mode="aspectFit" />
+        <image class="send-icon-img" src="/assets/icons/arrow-up3{{inputText ? '-active' : ''}}.svg" mode="aspectFit" />
       </view>
     </view>
   </view>

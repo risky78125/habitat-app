@@ -9,7 +9,7 @@
             hover-class="weui-active"
           >
             <view class="weui-navigation-bar__button weui-navigation-bar__btn_goback">
-              <image class="weui-navigation-bar__back-icon" src="/assets/icons-new/arrow-left3.svg" mode="aspectFit" />
+              <image class="weui-navigation-bar__back-icon" src="/assets/icons/arrow-left3.svg" mode="aspectFit" />
             </view>
           </view>
         </view>

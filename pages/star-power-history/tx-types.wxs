@@ -7,11 +7,11 @@ var labels = {
 };
 
 var icons = {
-  register_bonus: '/assets/icons-new/user-add.svg',
-  checkin: '/assets/icons-new/calendar.svg',
-  ad_reward: '/assets/icons-new/classic-tv.svg',
-  chat_cost: '/assets/icons-new/message.svg',
-  admin_adjust: '/assets/icons-new/helmet2.svg',
+  register_bonus: '/assets/icons/user-add.svg',
+  checkin: '/assets/icons/calendar.svg',
+  ad_reward: '/assets/icons/classic-tv.svg',
+  chat_cost: '/assets/icons/message.svg',
+  admin_adjust: '/assets/icons/helmet2.svg',
 };
 
 function label(type) {
