@@ -57,7 +57,7 @@ function waitForAppLogin(): Promise<boolean> {
   return Promise.resolve(!!getToken())
 }
 
-function request<T = any>(options: RequestOptions): Promise<T> {
+function request<T = any>(options: RequestOptions & { _retried?: boolean }): Promise<T> {
   const authRequired = options.needAuth !== false
 
   const doRequest = (): Promise<T> => {
@@ -82,8 +82,14 @@ function request<T = any>(options: RequestOptions): Promise<T> {
         success(res: any) {
           const body = res.data as ApiResponse<T>
           if (res.statusCode === HTTP.UNAUTHORIZED) {
+            if (options._retried) {
+              clearAuth()
+              wx.showToast({ title: M.RELOAD_LOGIN, icon: 'none' })
+              reject(new Error('auth expired'))
+              return
+            }
             refreshToken().then(() => {
-              request(options).then(resolve).catch(reject)
+              request({ ...options, _retried: true }).then(resolve).catch(reject)
             }).catch(() => {
               clearAuth()
               wx.showToast({ title: M.RELOAD_LOGIN, icon: 'none' })

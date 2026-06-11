@@ -86,6 +86,8 @@ export const LOGIN_STATE = {
   FAILED: 'failed',
 } as const
 
+export type LoginState = typeof LOGIN_STATE[keyof typeof LOGIN_STATE]
+
 // ==================== SSE ====================
 
 export const SSE = {
@@ -135,20 +137,6 @@ export const FEEDBACK_CATEGORIES = [
 ] as const
 
 export const DEFAULT_FEEDBACK_CATEGORY = 'bug'
-
-// ==================== Colors (sync with app.scss) ====================
-
-export const COLOR = {
-  PRIMARY: '#5B6CFF',
-  TEXT: '#222222',
-  TEXT_SECONDARY: '#8B8FA8',
-  BG: '#F7F8FC',
-  CODE_BG: '#1E1E2E',
-  CODE_TEXT: '#CDD6F4',
-  BORDER: '#E8E9F0',
-  QUOTE_BG: '#F0F1F8',
-  QUOTE_TEXT: '#555580',
-} as const
 
 // ==================== App meta ====================
 

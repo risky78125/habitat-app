@@ -1,17 +1,4 @@
-/* Design Tokens from figma-ui */
-$primary: #5B6CFF;
-$primary-light: #EEF0FF;
-$secondary: #8B7FFF;
-$accent: #FFB86B;
-$success: #4ECDC4;
-$error: #FF4D6A;
-$bg: #F7F8FC;
-$text-primary: #222222;
-$text-secondary: #8B8FA8;
-$text-tertiary: #A8ABBC;
-$text-muted: #C8CADC;
-$card-border: rgba(91, 108, 255, 0.08);
-$card-shadow: 0 4rpx 16rpx rgba(91, 108, 255, 0.06);
+@import 'styles/variables';
 
 page {
   display: flex;

@@ -1,11 +1,4 @@
-$primary: #5B6CFF;
-$secondary: #8B7FFF;
-$accent: #FFB86B;
-$success: #4ECDC4;
-$error: #FF4D6A;
-$bg: #F7F8FC;
-$text-primary: #222222;
-$text-secondary: #8B8FA8;
+@import '../../styles/variables';
 
 .page {
   flex: 1;

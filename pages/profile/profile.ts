@@ -99,11 +99,13 @@ Component({
 
       try {
         await checkin()
-        this.setData({ hasCheckedIn: true })
-        this.setData({ 'userInfo.checkinDays': this.data.userInfo.checkinDays + 1 })
-        wx.showToast({ title: M.CHECKIN_SUCCESS, icon: 'success' })
         const balance = await getStarPowerBalance()
-        this.setData({ starPowerBalance: balance.balance })
+        this.setData({
+          hasCheckedIn: true,
+          starPowerBalance: balance.balance,
+          'userInfo.checkinDays': this.data.userInfo.checkinDays + 1,
+        })
+        wx.showToast({ title: M.CHECKIN_SUCCESS, icon: 'success' })
       } catch (e) {
         wx.showToast({ title: M.CHECKIN_FAIL, icon: 'none' })
       }

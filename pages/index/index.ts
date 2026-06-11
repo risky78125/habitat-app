@@ -1,4 +1,5 @@
 import { getHotAgents, getConversations, getUserProfile, getAgentCategories, type Agent, type Conversation, type UserProfile, type Category } from '../../utils/api'
+import type { DisplayAgent, DisplayConversation } from '../../utils/types'
 import { CATEGORY_META, FALLBACK_META, DEFAULT_GRADIENT } from '../../constants/categories'
 import { formatRelativeTime } from '../../utils/util'
 import { PAGE, DEFAULT_NICKNAME, DEFAULT_AVATAR_INITIAL, FALLBACK_ICON } from '../../config'
@@ -9,16 +10,6 @@ interface QuickCategory {
   icon: string
   color: string
   bg: string
-}
-
-interface DisplayAgent extends Agent {
-  displayIcon: string
-  chipGradient: string
-}
-
-interface DisplayConversation extends Conversation {
-  displayIcon: string
-  displayTime: string
 }
 
 function getAgentIcon(category: string): string {
@@ -87,14 +78,14 @@ Component({
 
         const hotRes = await getHotAgents()
 
+        const catMap: Record<string, Category> = {}
+        cats.forEach((c: Category) => { catMap[c.categoryKey] = c })
+
         const featuredAgent = hotRes.length > 0 ? {
           ...hotRes[0],
           displayIcon: getAgentIcon(hotRes[0].category),
-          chipGradient: ((cats.find((c: Category) => c.categoryKey === hotRes[0].category)) || {}).gradient || DEFAULT_GRADIENT,
+          chipGradient: (catMap[hotRes[0].category] || {}).gradient || DEFAULT_GRADIENT,
         } : null
-
-        const catMap: Record<string, Category> = {}
-        cats.forEach((c: Category) => { catMap[c.categoryKey] = c })
 
         const hotAgents = hotRes.slice(0, PAGE.INDEX_HOT_AGENTS).map(a => ({
           ...a,

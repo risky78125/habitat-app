@@ -8,7 +8,6 @@ interface DisplayTransaction extends StarPowerTransaction {
 
 Component({
   data: {
-    transactions: [] as StarPowerTransaction[],
     filteredTransactions: [] as DisplayTransaction[],
     loading: true,
     loadingMore: false,
@@ -17,6 +16,8 @@ Component({
     pageSize: PAGE.TRANSACTIONS,
     filter: 'all' as 'all' | 'income' | 'expense',
   },
+
+  _allTransactions: [] as DisplayTransaction[],
 
   lifetimes: {
     attached() {
@@ -32,18 +33,14 @@ Component({
     },
 
     applyFilter() {
-      const { transactions, filter } = this.data
-      let filtered = transactions
+      const { filter } = this.data
+      let filtered = this._allTransactions
       if (filter === 'income') {
-        filtered = transactions.filter(t => t.amount > 0)
+        filtered = this._allTransactions.filter(t => t.amount > 0)
       } else if (filter === 'expense') {
-        filtered = transactions.filter(t => t.amount < 0)
+        filtered = this._allTransactions.filter(t => t.amount < 0)
       }
-      const display = filtered.map(t => ({
-        ...t,
-        displayTime: formatRelativeTime(t.createdAt),
-      }))
-      this.setData({ filteredTransactions: display })
+      this.setData({ filteredTransactions: filtered })
     },
 
     async loadTransactions(append = false) {
@@ -53,10 +50,12 @@ Component({
       try {
         const page = append ? this.data.page + 1 : 1
         const res = await getStarPowerTransactions(page, this.data.pageSize)
-        const records = res.records || []
-        const all = append ? [...this.data.transactions, ...records] : records
+        const records = (res.records || []).map(t => ({
+          ...t,
+          displayTime: formatRelativeTime(t.createdAt),
+        }))
+        this._allTransactions = append ? [...this._allTransactions, ...records] : records
         this.setData({
-          transactions: all,
           page,
           hasMore: records.length >= this.data.pageSize,
           loading: false,

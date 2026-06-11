@@ -1,13 +1,13 @@
 import { loginApi, getStarPowerBalance, getUserProfile, type UserProfile } from './utils/api'
 import { setToken, getToken, clearAuth } from './utils/request'
-import { STORAGE, LOGIN_STATE } from './config'
+import { STORAGE, LOGIN_STATE, type LoginState } from './config'
 
 App<IAppOption>({
   globalData: {
     userInfo: null as UserProfile | null,
     starPowerBalance: 0,
     isLoggedIn: false,
-    loginState: LOGIN_STATE.PENDING as 'pending' | LOGIN_STATE.SUCCESS | LOGIN_STATE.FAILED,
+    loginState: LOGIN_STATE.PENDING as LoginState,
     _pendingCategory: null as string | null,
   },
 

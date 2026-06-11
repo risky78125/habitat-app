@@ -46,7 +46,7 @@
           indicator-active-color="#5B6CFF"
           duration="250"
         >
-          <swiper-item wx:for="{{categoryPages}}" wx:key="page">
+          <swiper-item wx:for="{{categoryPages}}" wx:key="*this">
             <view class="category-row">
               <view
                 wx:for="{{item}}"

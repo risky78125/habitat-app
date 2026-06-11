@@ -1,8 +1,4 @@
 Component({
-  options: {
-    
-  },
-
   properties: {
     show: {
       type: Boolean,

@@ -180,6 +180,21 @@ export function deleteConversation(id: number) {
   })
 }
 
+// ==================== 收藏 ====================
+
+export function getFavorites(page = 1, size = PAGE.FAVORITES) {
+  return request<PageResult<Agent>>({
+    url: `${API.FAVORITES}?page=${page}&size=${size}`,
+  })
+}
+
+export function removeFavorite(agentId: number) {
+  return request<void>({
+    url: API.FAVORITE.replace('{id}', String(agentId)),
+    method: 'DELETE',
+  })
+}
+
 // ==================== 星力 ====================
 
 export function getStarPowerBalance() {

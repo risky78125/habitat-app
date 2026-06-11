@@ -1,12 +1,7 @@
 import { getAgents, getAgentCategories, type Agent, type Category } from '../../utils/api'
+import type { DisplayAgent } from '../../utils/types'
 import { DEFAULT_GRADIENT } from '../../constants/categories'
 import { PAGE, FALLBACK_ICON } from '../../config'
-
-interface DisplayAgent extends Agent {
-  displayIcon: string
-  displayCategory: string
-  cardGradient: string
-}
 
 Component({
   data: {
@@ -21,7 +16,7 @@ Component({
     page: 1,
   },
 
-  _catMap: {} as Record<string, Category>,
+  _catMap: {} as Record<string, Category>, // 仅用于查找，不需要触发视图更新
 
   lifetimes: {
     attached() {

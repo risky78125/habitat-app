@@ -1,13 +1,8 @@
 import { getConversations, deleteConversation, type Conversation } from '../../utils/api'
+import type { DisplayConversation } from '../../utils/types'
 import { DEFAULT_GRADIENT } from '../../constants/categories'
 import { formatRelativeTime } from '../../utils/util'
 import { MSG as M, LOGIN_STATE } from '../../config'
-
-interface DisplayConversation extends Conversation {
-  displayTime: string
-  displayIcon: string
-  convGradient: string
-}
 
 const PAGE_SIZE = 20
 

@@ -1,6 +1,5 @@
-import { type Agent } from '../../utils/api'
-import { request } from '../../utils/request'
-import { API, PAGE, MSG as M } from '../../config'
+import { getFavorites, removeFavorite, type Agent } from '../../utils/api'
+import { PAGE, MSG as M } from '../../config'
 
 Component({
   data: {
@@ -31,9 +30,7 @@ Component({
 
       try {
         const page = append ? this.data.page + 1 : 1
-        const res = await request<{ records: Agent[]; total: number }>({
-          url: `${API.FAVORITES}?page=${page}&size=${this.data.pageSize}`,
-        })
+        const res = await getFavorites(page, this.data.pageSize)
         const records = res.records || []
         this.setData({
           favorites: append ? [...this.data.favorites, ...records] : records,
@@ -69,12 +66,9 @@ Component({
         success: async (res) => {
           if (res.confirm) {
             try {
-              await request({
-                url: API.FAVORITE.replace('{id}', String(agentId)),
-                method: 'DELETE',
-              })
+              await removeFavorite(agentId)
               this.setData({
-                favorites: this.data.favorites.filter(function (a: Agent) { return a.id !== agentId })
+                favorites: this.data.favorites.filter((a: Agent) => a.id !== agentId)
               })
               wx.showToast({ title: M.UNFAVORITED, icon: 'success' })
             } catch (e) {
