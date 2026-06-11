@@ -84,11 +84,17 @@
   flex-shrink: 0;
   margin-right: 24rpx;
 
-  &.income { background: rgba(78, 205, 196, 0.12); }
-  &.expense { background: rgba(255, 77, 106, 0.08); }
+  &.tx-register_bonus { background: rgba(91, 108, 255, 0.8); }
+  &.tx-checkin { background: rgba(78, 205, 196, 0.8); }
+  &.tx-ad_reward { background: rgba(255, 184, 107, 0.8); }
+  &.tx-chat_cost { background: rgba(71, 118, 230, 0.8); }
+  &.tx-admin_adjust { background: rgba(255, 77, 106, 0.8); }
 }
 
-.tx-icon { font-size: 32rpx; }
+.tx-icon {
+  width: 52rpx;
+  height: 52rpx;
+}
 
 .tx-body {
   flex: 1;

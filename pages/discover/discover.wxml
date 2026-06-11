@@ -17,7 +17,7 @@
     <view class="search-container">
       <view class="search-bar">
         <view class="search-icon-wrap">
-          <image class="search-icon-img" src="/assets/icons/search.svg" mode="aspectFit" />
+          <image class="search-icon-img" src="/assets/icons-new/search.svg" mode="aspectFit" />
         </view>
         <input
           class="search-input"

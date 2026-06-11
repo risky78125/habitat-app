@@ -26,8 +26,8 @@
 
       <view wx:else class="list">
         <view class="tx-item" wx:for="{{filteredTransactions}}" wx:key="id">
-          <view class="tx-icon-wrap {{item.amount > 0 ? 'income' : 'expense'}}">
-            <text class="tx-icon">{{tx.icon(item.type)}}</text>
+          <view class="tx-icon-wrap tx-{{item.type}}">
+            <image class="tx-icon" src="{{tx.icon(item.type)}}" mode="aspectFit" />
           </view>
           <view class="tx-body">
             <text class="tx-type">{{tx.label(item.type)}}</text>

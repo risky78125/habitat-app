@@ -5,7 +5,7 @@
     <view class="hero">
       <view class="hero-bg"></view>
       <view class="hero-content">
-        <text class="app-icon">🏠</text>
+        <image class="app-icon" src="/assets/icons/logo.png" mode="aspectFit" />
         <text class="app-name">栖息地</text>
         <text class="app-slogan">发现你的 AI 助手</text>
         <text class="app-version">v{{version}}</text>
@@ -16,7 +16,9 @@
       <text class="section-title">核心功能</text>
       <view class="feature-list">
         <view class="feature-item" wx:for="{{features}}" wx:key="title">
-          <text class="feature-icon">{{item.icon}}</text>
+          <view class="feature-icon-wrap feature-icon-{{index}}">
+            <image class="feature-icon" src="{{item.icon}}" mode="aspectFit" />
+          </view>
           <view class="feature-info">
             <text class="feature-title">{{item.title}}</text>
             <text class="feature-desc">{{item.desc}}</text>

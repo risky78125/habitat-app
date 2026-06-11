@@ -23,21 +23,13 @@
 }
 
 .tab-icon {
-  width: 44rpx;
-  height: 44rpx;
+  width: 68rpx;
+  height: 68rpx;
   margin-bottom: 4rpx;
 }
 
-.tab-icon {
-  width: 44rpx;
-  height: 44rpx;
-}
-
 .tab-text {
-  font-size: 20rpx;
-  font-weight: 500;
-  color: #A8ABBC;
-  line-height: 1;
+  display: none;
 }
 
 .tab-item.active .tab-text {

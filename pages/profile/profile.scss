@@ -147,8 +147,8 @@
 }
 
 .edit-icon {
-  font-size: 28rpx;
-  color: #fff;
+  width: 36rpx;
+  height: 36rpx;
 }
 
 /* Token card */
@@ -283,14 +283,15 @@
   margin-right: 24rpx;
 }
 
-.menu-icon-purple { background: rgba(91, 108, 255, 0.1); }
-.menu-icon-yellow { background: rgba(255, 184, 107, 0.1); }
-.menu-icon-teal { background: rgba(78, 205, 196, 0.1); }
-.menu-icon-blue { background: rgba(71, 118, 230, 0.1); }
-.menu-icon-red { background: rgba(255, 77, 106, 0.1); }
+.menu-icon-purple { background: rgba(91, 108, 255, 0.8); }
+.menu-icon-yellow { background: rgba(255, 184, 107, 0.8); }
+.menu-icon-teal { background: rgba(78, 205, 196, 0.8); }
+.menu-icon-blue { background: rgba(71, 118, 230, 0.8); }
+.menu-icon-red { background: rgba(255, 77, 106, 0.8); }
 
 .menu-icon {
-  font-size: 32rpx;
+  width: 44rpx;
+  height: 44rpx;
 }
 
 .menu-label {
