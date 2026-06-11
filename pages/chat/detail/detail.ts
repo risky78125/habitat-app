@@ -6,12 +6,109 @@ import { waitForAppLogin } from '../../../utils/request'
 import { formatTime } from '../../../utils/util'
 import { TIMEOUT, MSG as M, DEFAULT_CHAT_INITIAL } from '../../../config'
 
-const mdParser = require('../../../towxml/parse/markdown/index')
+const marked = require('../../../libs/marked')
+
+const S: Record<string, string> = {
+  paragraph: 'margin:0 0 12rpx;line-height:1.65;',
+  strong: 'font-weight:700;',
+  em: 'font-style:italic;',
+  codespan: 'font-family:Menlo,Consolas,monospace;font-size:24rpx;background:rgba(91,108,255,0.08);color:#5B6CFF;padding:2rpx 8rpx;border-radius:6rpx;',
+  code: 'font-family:Menlo,Consolas,monospace;font-size:24rpx;background:#F5F6FA;color:#222;padding:16rpx 20rpx;border-radius:12rpx;display:block;overflow-x:auto;margin:10rpx 0;',
+  blockquote: 'margin:10rpx 0;padding:8rpx 16rpx;border-left:6rpx solid #5B6CFF;background:rgba(91,108,255,0.04);color:#8B8FA8;',
+  link: 'color:#5B6CFF;text-decoration:none;',
+  heading: 'font-weight:700;margin:12rpx 0 8rpx;',
+  hr: 'border:none;border-top:1rpx solid #E8E9F0;margin:16rpx 0;',
+  image: 'max-width:100%;border-radius:12rpx;',
+  table: 'width:100%;border-collapse:collapse;margin:10rpx 0;font-size:24rpx;',
+  tablecell: 'border:1rpx solid #E8E9F0;padding:8rpx 12rpx;text-align:left;',
+}
+
+const HEADING_SIZE: Record<number, string> = { 1: '34rpx', 2: '32rpx', 3: '30rpx' }
+
+const renderer = new marked.Renderer()
+
+const origHeading = renderer.heading
+renderer.heading = function (this: any, text: string, level: number, raw: string, slugger: any) {
+  let html = origHeading.call(this, text, level, raw, slugger)
+  const size = HEADING_SIZE[level] || '28rpx'
+  return html.replace(/<h(\d)/, `<h$1 style="font-size:${size};${S.heading}"`)
+}
+
+const origList = renderer.list
+renderer.list = function (this: any, body: string, ordered: boolean) {
+  let html = origList.call(this, body, ordered)
+  const tag = ordered ? 'ol' : 'ul'
+  return html.replace(`<${tag}`, `<${tag} style="margin:8rpx 0;padding-left:32rpx;"`)
+}
+
+const origListItem = renderer.listitem
+renderer.listitem = function (this: any, text: string) {
+  let html = origListItem.call(this, text)
+  return html.replace('<li', '<li style="margin:4rpx 0;line-height:1.6;"')
+}
+
+renderer.table = function (this: any, header: string, body: string) {
+  const strip = (s: string) => s.replace(/<[^>]+>/g, '').trim()
+  const parseCells = (html: string) => {
+    const cells: string[] = []
+    html.replace(/<t[hd][^>]*>([\s\S]*?)<\/t[hd]>/g, (_: string, c: string) => { cells.push(strip(c)); return '' })
+    return cells
+  }
+  const headerCells = parseCells(header)
+  const allBodyCells = parseCells(body)
+  const colCount = headerCells.length || 1
+  const bodyRows: string[][] = []
+  for (let i = 0; i < allBodyCells.length; i += colCount) {
+    bodyRows.push(allBodyCells.slice(i, i + colCount))
+  }
+
+  const rowStyle = 'display:flex;width:100%;'
+  const cellStyle = (isHeader: boolean) =>
+    `flex:1;padding:12rpx 16rpx;font-size:26rpx;line-height:1.5;word-break:break-all;` +
+    (isHeader
+      ? 'font-weight:600;background:rgba(91,108,255,0.06);color:#5B6CFF;'
+      : 'color:#222;')
+  const borderStyle = (isFirst: boolean) =>
+    isFirst ? 'border-top:1rpx solid #E8E9F0;' : ''
+
+  let html = `<div style="margin:10rpx 0;border:1rpx solid #E8E9F0;border-radius:12rpx;overflow:hidden;">`
+  if (headerCells.length) {
+    html += `<div style="${rowStyle}border-bottom:1rpx solid #E8E9F0;">`
+    headerCells.forEach(c => { html += `<div style="${cellStyle(true)}">${c}</div>` })
+    html += `</div>`
+  }
+  bodyRows.forEach((row, ri) => {
+    html += `<div style="${rowStyle}${ri < bodyRows.length - 1 ? 'border-bottom:1rpx solid #E8E9F0;' : ''}">`
+    row.forEach(c => { html += `<div style="${cellStyle(false)}">${c}</div>` })
+    html += `</div>`
+  })
+  html += `</div>`
+  return html
+}
+
+renderer.tablerow = function (this: any, content: string) { return content }
+
+renderer.tablecell = function (this: any, content: string, flags: any) { return `<t${flags.header ? 'h' : 'd'}>${content}</t${flags.header ? 'h' : 'd'}>` }
+
+Object.keys(S).forEach((method) => {
+  if (['heading', 'list', 'listitem', 'table', 'tablerow', 'tablecell'].includes(method)) return
+  const orig = (renderer as any)[method]
+  if (!orig) return
+  ;(renderer as any)[method] = function (this: any) {
+    const html = orig.apply(this, arguments)
+    const style = S[method]
+    if (!style || !html) return html
+    const tag = method === 'paragraph' ? 'p' : method === 'codespan' ? 'code' : method
+    return html.replace(`<${tag}`, `<${tag} style="${style}"`)
+  }
+})
+
+marked.setOptions({ breaks: true, gfm: true, renderer })
+
 const md2html = (md: string) => {
   if (!md) return ''
   try {
-    const html = mdParser(md)
-    // 转换失败（残缺 markdown）时返回空，让模板走 <text> 兜底
+    const html = marked.parse(md) as string
     if (!html || html === md) return md
     return html
   } catch {
