@@ -68,8 +68,6 @@ renderer.table = function (this: any, header: string, body: string) {
     (isHeader
       ? 'font-weight:600;background:rgba(91,108,255,0.06);color:#5B6CFF;'
       : 'color:#222;')
-  const borderStyle = (isFirst: boolean) =>
-    isFirst ? 'border-top:1rpx solid #E8E9F0;' : ''
 
   let html = `<div style="margin:10rpx 0;border:1rpx solid #E8E9F0;border-radius:12rpx;overflow:hidden;">`
   if (headerCells.length) {
@@ -160,6 +158,12 @@ Component({
         if (res.height > 0) this.scrollToBottom()
       })
     },
+
+    detached() {
+      wx.offKeyboardHeightChange?.()
+      const ctx = this as any
+      if (ctx._reqTask) { ctx._reqTask.abort(); ctx._reqTask = null }
+    },
   },
 
   methods: {
@@ -175,7 +179,7 @@ Component({
 
       await this.checkLoginState()
 
-      if (agentId) this.loadAgent(agentId)
+      if (agentId) await this.loadAgent(agentId)
       else this.setData({ loading: false })
 
       if (conversationId) this.loadConversation(conversationId, agentId)
@@ -291,8 +295,9 @@ Component({
       this.scrollToBottom()
 
       let full = '', done = false
+      const ctx = this as any
 
-      sendMessage(conversationId, content, {
+      const reqTask = sendMessage(conversationId, content, {
         onMessage: (text: string) => {
           if (done || !text) return
           full += text
@@ -303,17 +308,21 @@ Component({
         onThinkingEnd: () => { if (!done) this.setData({ isThinking: false }) },
         onDone: () => {
           done = true
+          console.log('done', full)
+          ctx._reqTask = null
           this.updateMsg(aiMsgId, { content: full, htmlContent: md2html(full), isStreaming: false, time: now() })
           this.setData({ isTyping: false, isThinking: false })
           this.scrollToBottom()
         },
         onError: () => {
           done = true
+          if (ctx._reqTask) { ctx._reqTask.abort(); ctx._reqTask = null }
           this.updateMsg(aiMsgId, { content: '回复失败，请重试', htmlContent: md2html('回复失败，请重试'), isStreaming: false, time: now() })
           this.setData({ isTyping: false, isThinking: false })
           this.scrollToBottom()
         },
       })
+      ctx._reqTask = reqTask
     },
 
     scrollToBottom() {
@@ -322,9 +331,5 @@ Component({
       ctx._scrollTimer = setTimeout(() => { ctx._scrollTimer = null; this.setData({ scrollIntoViewId: 'bottom-anchor' }) }, 150)
     },
 
-    onCopyMessage(e: any) {
-      if (e.currentTarget.dataset.role !== 'user') return
-      wx.setClipboardData({ data: e.currentTarget.dataset.content, success: () => wx.showToast({ title: M.COPIED, icon: 'success' }) })
-    },
   },
 })

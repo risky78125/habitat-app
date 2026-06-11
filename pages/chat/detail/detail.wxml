@@ -31,8 +31,8 @@
           </view>
 
           <view class="msg-body {{item.role === 'user' ? 'msg-body-you' : 'msg-body-bot'}}">
-            <view class="msg-bubble {{item.role === 'user' ? 'msg-bubble-you' : 'msg-bubble-bot'}}" data-role="{{item.role}}" data-content="{{item.content}}" bindtap="onCopyMessage">
-              <rich-text wx:if="{{item.role === 'assistant' && item.htmlContent && item.htmlContent !== item.content}}" nodes="{{item.htmlContent}}" mode="compat" class="msg-text"></rich-text>
+            <view class="msg-bubble {{item.role === 'user' ? 'msg-bubble-you' : 'msg-bubble-bot'}}">
+              <rich-text wx:if="{{item.role === 'assistant' && item.htmlContent && item.htmlContent !== item.content}}" nodes="{{item.htmlContent}}" mode="compat" space="nbsp" class="msg-text"></rich-text>
               <text wx:else class="msg-text {{item.role === 'user' ? 'msg-text-you' : 'msg-text-bot'}}">{{item.content}}</text>
               <view wx:if="{{item.isStreaming}}" class="typing-inline">
                 <view class="typing-dot"></view><view class="typing-dot"></view><view class="typing-dot"></view>
@@ -42,12 +42,6 @@
           </view>
         </view>
 
-        <view wx:if="{{showTypingIndicator}}" class="msg-row msg-row-bot">
-          <view class="msg-avatar msg-avatar-bot"><text class="msg-avatar-text">🤖</text></view>
-          <view class="msg-body msg-body-bot">
-            <view class="msg-bubble msg-bubble-bot typing-bubble"><loading-dots show="{{true}}" /></view>
-          </view>
-        </view>
       </block>
 
       <view id="bottom-anchor" class="messages-bottom-spacer"></view>

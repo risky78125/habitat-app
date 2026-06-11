@@ -173,9 +173,8 @@ async function requestSSE(conversationId: number, content: string, callbacks: SS
     },
   })
 
-  let buffer = ''
-  let currentEvent = SSE.DEFAULT_EVENT
-  let currentData = ''
+  let buffer = ''                   // 文本缓冲区（尚未形成完整事件的字符）
+  let byteRemainder: number[] = []   // UTF-8 多字节字符跨 chunk 截断的残留字节
 
   const dispatch = (event: string, data: string) => {
     if (!data) return true
@@ -184,11 +183,8 @@ async function requestSSE(conversationId: number, content: string, callbacks: SS
       case 'thinking': (callbacks.onThinkingStart) && callbacks.onThinkingStart(); break
       case 'thinking_done': (callbacks.onThinkingEnd) && callbacks.onThinkingEnd(); break
       case 'message':
-        try {
-          const parsed = JSON.parse(data)
-          const text = parsed.content || parsed.data || parsed.text || data
-          ;(callbacks.onMessage) && callbacks.onMessage(text)
-        } catch { (callbacks.onMessage) && callbacks.onMessage(data) }
+        // 后端 data 是 LLM 流式输出的纯文本，直接传递
+        ;(callbacks.onMessage) && callbacks.onMessage(data)
         break
       case 'error':
         try {
@@ -200,38 +196,51 @@ async function requestSSE(conversationId: number, content: string, callbacks: SS
     return true
   }
 
+  // 解析一条完整的 SSE 事件文本，提取 event 类型和 data 内容
+  const parseEvent = (raw: string): { event: string; data: string } | null => {
+    // raw 是一段以 \n 分隔的事件文本（不含末尾的 \n\n）
+    let event = SSE.DEFAULT_EVENT
+    let data = ''
+    const lines = raw.split('\n')
+    for (let line of lines) {
+      if (line.endsWith('\r')) line = line.slice(0, -1) // 兼容 CRLF
+
+      if (line.startsWith(SSE.EVENT_PREFIX)) {
+        event = line.slice(SSE.EVENT_PREFIX.length).trim() || SSE.DEFAULT_EVENT
+      } else if (line.startsWith(SSE.DATA_PREFIX)) {
+        // Spring SseEmitter 格式是 data:<content>（冒号后无空格）
+        const d = line.slice(SSE.DATA_PREFIX.length)
+        data += (data ? '\n' : '') + d
+      }
+      // 忽略其他字段（id、retry、冒号开头的注释行）
+    }
+    if (!data) return null
+    return { event, data }
+  }
+
   if (typeof reqTask.onChunkReceived === 'function') { reqTask.onChunkReceived((res: any) => {
     try {
-      const chunk = arrayBufferToString(res.data)
+      const chunkBytes = new Uint8Array(res.data)
+      // 拼接上一轮截断残留的字节
+      const combined = new Uint8Array(byteRemainder.length + chunkBytes.length)
+      combined.set(byteRemainder, 0)
+      combined.set(chunkBytes, byteRemainder.length)
+      const { text: chunk, remainder } = arrayBufferToString(combined)
+      byteRemainder = remainder
       buffer += chunk
 
-      const lines = buffer.split('\n')
-      buffer = lines.pop() || ''
+      // 以 \n\n 为界切分完整事件，最后一段（不完整）留在 buffer 中
+      while (true) {
+        const idx = buffer.indexOf('\n\n')
+        if (idx === -1) break
 
-      for (const line of lines) {
-        // 空行 = 事件结束
-        if (line.trim() === '') {
-          const data = currentData
-          currentData = ''
-          if (!dispatch(currentEvent, data)) return
-          currentEvent = SSE.DEFAULT_EVENT
-          continue
+        const raw = buffer.slice(0, idx)
+        buffer = buffer.slice(idx + 2)
+
+        const parsed = parseEvent(raw)
+        if (parsed) {
+          if (!dispatch(parsed.event, parsed.data)) return
         }
-
-        if (line.startsWith(SSE.EVENT_PREFIX)) {
-          currentEvent = line.slice(SSE.EVENT_PREFIX.length).trim()
-          continue
-        }
-
-        if (line.startsWith(SSE.DATA_PREFIX)) {
-          // 多个 data: 行用 \n 拼接
-          const d = line.slice(SSE.DATA_PREFIX.length).replace(/^ /, '')
-          currentData += (currentData ? '\n' : '') + d
-          continue
-        }
-
-        // 不匹配任何前缀 → JSON 内容内部的换行，拼到 currentData
-        currentData += '\n' + line
       }
     } catch (e) {}
   }); }
@@ -239,17 +248,57 @@ async function requestSSE(conversationId: number, content: string, callbacks: SS
   return reqTask
 }
 
-function arrayBufferToString(buffer: ArrayBuffer): string {
-  const bytes = new Uint8Array(buffer)
-  let result = ''
-  for (let i = 0; i < bytes.length; i++) {
-    result += String.fromCharCode(bytes[i])
+function arrayBufferToString(array: Uint8Array): { text: string; remainder: number[] } {
+  // 手写 UTF-8 解码器，返回 decoded 文本 + 未完成的尾部字节（供下一 chunk 拼接）
+  const bytes = array
+  const len = bytes.length
+  const parts: string[] = []
+  let i = 0
+
+  while (i < len) {
+    const b0 = bytes[i]
+    let cp: number
+    let seqLen: number
+
+    if (b0 < 0x80) {
+      // 1-byte ASCII (包括空格 0x20)
+      cp = b0
+      seqLen = 1
+    } else if ((b0 & 0xE0) === 0xC0) {
+      // 2-byte
+      cp = ((b0 & 0x1F) << 6) | (bytes[i + 1] & 0x3F)
+      seqLen = 2
+    } else if ((b0 & 0xF0) === 0xE0) {
+      // 3-byte (中文等)
+      cp = ((b0 & 0x0F) << 12) | ((bytes[i + 1] & 0x3F) << 6) | (bytes[i + 2] & 0x3F)
+      seqLen = 3
+    } else if ((b0 & 0xF8) === 0xF0) {
+      // 4-byte (emoji 等)
+      cp = ((b0 & 0x07) << 18) | ((bytes[i + 1] & 0x3F) << 12) | ((bytes[i + 2] & 0x3F) << 6) | (bytes[i + 3] & 0x3F)
+      seqLen = 4
+    } else {
+      // 非法字节（可能是截断后的 continuation byte），跳过
+      i++
+      continue
+    }
+
+    // 字节数不足 → 多字节字符被 chunk 边界截断，保留残留字节给下一轮
+    if (i + seqLen > len) {
+      const remainder: number[] = []
+      for (let j = i; j < len; j++) remainder.push(bytes[j])
+      return { text: parts.join(''), remainder }
+    }
+
+    // 转成 UTF-16，处理超出 BMP 的字符（如 emoji）
+    if (cp > 0xFFFF) {
+      cp -= 0x10000
+      parts.push(String.fromCharCode(0xD800 + (cp >> 10), 0xDC00 + (cp & 0x3FF)))
+    } else {
+      parts.push(String.fromCharCode(cp))
+    }
+    i += seqLen
   }
-  try {
-    return decodeURIComponent(escape(result))
-  } catch {
-    return result
-  }
+  return { text: parts.join(''), remainder: [] }
 }
 
 export {
