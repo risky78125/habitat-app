@@ -15,7 +15,6 @@ export interface Agent {
   isHot: boolean
   hotSortOrder: number
   starPowerCostPerRound: number
-  reportEnabled: boolean
   sortOrder: number
   status: number
   createdAt: string
@@ -61,7 +60,6 @@ export interface ChatMessage {
 
 export interface UserProfile {
   id: number
-  openid: string
   nickname: string
   avatarUrl: string
   phone: string
@@ -69,7 +67,6 @@ export interface UserProfile {
   lastCheckinDate: string
   status: number
   createdAt: string
-  updatedAt: string
 }
 
 export interface StarPowerTransaction {
