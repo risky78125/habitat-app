@@ -173,49 +173,23 @@ async function requestSSE(conversationId: number, content: string, callbacks: SS
     },
   })
 
-  let buffer = ''                   // 文本缓冲区（尚未形成完整事件的字符）
+  let buffer = ''                   // 文本缓冲区（尚未形成完整行的字符）
   let byteRemainder: number[] = []   // UTF-8 多字节字符跨 chunk 截断的残留字节
 
   const dispatch = (event: string, data: string) => {
-    if (!data) return true
-    if (data === SSE.DONE_SIGNAL) { (callbacks.onDone) && callbacks.onDone(); return false }
+    if (!data) return
+    if (data === SSE.DONE_SIGNAL) { (callbacks.onDone) && callbacks.onDone(); return }
     switch (event) {
       case 'thinking': (callbacks.onThinkingStart) && callbacks.onThinkingStart(); break
       case 'thinking_done': (callbacks.onThinkingEnd) && callbacks.onThinkingEnd(); break
       case 'message':
-        // 后端 data 是 LLM 流式输出的纯文本，直接传递
+        // data 是 LLM 流式输出的纯文本（JSON 已由后端转义，前端拿到的是原文）
         ;(callbacks.onMessage) && callbacks.onMessage(data)
         break
       case 'error':
-        try {
-          const parsed = JSON.parse(data)
-          ;(callbacks.onError) && callbacks.onError(parsed.message || parsed.error || data)
-        } catch { (callbacks.onError) && callbacks.onError(data) }
+        (callbacks.onError) && callbacks.onError(data)
         break
     }
-    return true
-  }
-
-  // 解析一条完整的 SSE 事件文本，提取 event 类型和 data 内容
-  const parseEvent = (raw: string): { event: string; data: string } | null => {
-    // raw 是一段以 \n 分隔的事件文本（不含末尾的 \n\n）
-    let event = SSE.DEFAULT_EVENT
-    let data = ''
-    const lines = raw.split('\n')
-    for (let line of lines) {
-      if (line.endsWith('\r')) line = line.slice(0, -1) // 兼容 CRLF
-
-      if (line.startsWith(SSE.EVENT_PREFIX)) {
-        event = line.slice(SSE.EVENT_PREFIX.length).trim() || SSE.DEFAULT_EVENT
-      } else if (line.startsWith(SSE.DATA_PREFIX)) {
-        // Spring SseEmitter 格式是 data:<content>（冒号后无空格）
-        const d = line.slice(SSE.DATA_PREFIX.length)
-        data += (data ? '\n' : '') + d
-      }
-      // 忽略其他字段（id、retry、冒号开头的注释行）
-    }
-    if (!data) return null
-    return { event, data }
   }
 
   if (typeof reqTask.onChunkReceived === 'function') { reqTask.onChunkReceived((res: any) => {
@@ -229,17 +203,18 @@ async function requestSSE(conversationId: number, content: string, callbacks: SS
       byteRemainder = remainder
       buffer += chunk
 
-      // 以 \n\n 为界切分完整事件，最后一段（不完整）留在 buffer 中
-      while (true) {
-        const idx = buffer.indexOf('\n\n')
-        if (idx === -1) break
+      // JSON Lines: 每行是一个完整的 {"event":"...","data":"..."}
+      // 按 \n 切分，最后一段（不完整行）留在 buffer
+      const lines = buffer.split('\n')
+      buffer = lines.pop() || ''
 
-        const raw = buffer.slice(0, idx)
-        buffer = buffer.slice(idx + 2)
-
-        const parsed = parseEvent(raw)
-        if (parsed) {
-          if (!dispatch(parsed.event, parsed.data)) return
+      for (const line of lines) {
+        if (!line) continue // 跳过空行
+        try {
+          const msg = JSON.parse(line)
+          dispatch(msg.event || SSE.DEFAULT_EVENT, msg.data || '')
+        } catch {
+          // 非 JSON 行，忽略（可能是 chunk 边界噪声）
         }
       }
     } catch (e) {}
