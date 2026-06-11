@@ -205,7 +205,7 @@
 /* Quick categories */
 .quick-grid {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: row;
 }
 
 .quick-item {
@@ -216,9 +216,8 @@
   border-radius: 32rpx;
   flex: 1;
   margin-right: 20rpx;
-  margin-bottom: 20rpx;
 
-  &:nth-child(2n) { margin-right: 0; }
+  &:last-child { margin-right: 0; }
 }
 
 .quick-icon {
@@ -232,6 +231,7 @@
 /* Agent grid */
 .agent-grid {
   display: flex;
+  flex-direction: row;
 }
 
 .agent-grid-item {
@@ -240,8 +240,7 @@
   align-items: center;
   padding: 24rpx 0;
   border-radius: 32rpx;
-  width: calc(25% - 15rpx);
-  flex-shrink: 0;
+  flex: 1;
   margin-right: 20rpx;
 
   &:last-child { margin-right: 0; }
