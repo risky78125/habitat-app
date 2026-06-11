@@ -308,7 +308,6 @@ Component({
         onThinkingEnd: () => { if (!done) this.setData({ isThinking: false }) },
         onDone: () => {
           done = true
-          console.log('done', full)
           ctx._reqTask = null
           this.updateMsg(aiMsgId, { content: full, htmlContent: md2html(full), isStreaming: false, time: now() })
           this.setData({ isTyping: false, isThinking: false })
