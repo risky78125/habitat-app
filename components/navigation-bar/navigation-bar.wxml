@@ -8,7 +8,9 @@
             class="weui-navigation-bar__btn_goback_wrapper"
             hover-class="weui-active"
           >
-            <view class="weui-navigation-bar__button weui-navigation-bar__btn_goback"></view>
+            <view class="weui-navigation-bar__button weui-navigation-bar__btn_goback">
+              <image class="weui-navigation-bar__back-icon" src="/assets/icons/back.svg" mode="aspectFit" />
+            </view>
           </view>
         </view>
       </block>
