@@ -10,7 +10,7 @@
       <text class="h2">一、服务内容</text>
       <text class="p">1. 栖息地是一个 AI Agent 对话平台，为用户提供多种专业领域的 AI 助手服务。</text>
       <text class="p">2. 用户通过微信小程序访问本应用，与 AI Agent 进行多轮对话。</text>
-      <text class="p">3. 本应用采用 Token 经济系统，用户通过签到、完成任务等方式获取 Token，用于对话消费。</text>
+      <text class="p">3. 本应用采用星力结算系统，用户通过每日签到、观看广告等方式获取星力，用于对话消费。</text>
 
       <text class="h2">二、账户注册与使用</text>
       <text class="p">1. 你需通过微信授权登录使用本应用。你的账户信息与微信 openid 绑定。</text>
@@ -31,11 +31,11 @@
       <text class="p">2. 你在使用本应用过程中输入的内容（如对话内容）的知识产权归你所有。</text>
       <text class="p">3. AI 生成的内容仅供参考，你不应将其用于商业用途而不加审核。</text>
 
-      <text class="h2">五、Token 使用规则</text>
-      <text class="p">1. Token 是本应用内的虚拟货币，用于消费 AI 对话服务。</text>
-      <text class="p">2. Token 不可转让、不可兑换现金。</text>
-      <text class="p">3. 我们保留调整 Token 获取和消费规则的权利，重大调整将提前通知。</text>
-      <text class="p">4. 因违规操作导致账户封禁时，账户内 Token 不予退还。</text>
+      <text class="h2">五、星力使用规则</text>
+      <text class="p">1. 星力是本应用内的虚拟货币，用于消费 AI 对话服务。</text>
+      <text class="p">2. 星力不可转让、不可兑换现金。</text>
+      <text class="p">3. 我们保留调整星力获取和消费规则的权利，重大调整将提前通知。</text>
+      <text class="p">4. 因违规操作导致账户封禁时，账户内星力不予退还。</text>
 
       <text class="h2">六、免责声明</text>
       <text class="p">1. AI 生成的内容可能存在错误或不准确之处，我们不对 AI 回复的准确性、完整性做出保证。</text>
