@@ -81,7 +81,8 @@
           bindtap="onAgentTap"
         >
           <view class="card-avatar" style="background: {{item.cardGradient}}">
-            <text class="card-avatar-text">{{item.displayIcon}}</text>
+            <image wx:if="{{item.isImage}}" class="card-avatar-img" src="{{item.displayIcon}}" mode="aspectFit" />
+            <text wx:else class="card-avatar-text">{{item.displayIcon}}</text>
           </view>
           <view class="card-info">
             <text class="card-name">{{item.name}}</text>

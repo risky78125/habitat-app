@@ -60,7 +60,8 @@
         <view class="agent-grid">
           <view wx:for="{{hotAgents}}" wx:key="id" class="agent-grid-item" data-id="{{item.id}}" bindtap="onAgentTap">
             <view class="agent-grid-icon" style="background: {{item.chipGradient}}">
-              <text class="agent-grid-emoji">{{item.displayIcon}}</text>
+              <image wx:if="{{item.isImage}}" class="agent-grid-img" src="{{item.displayIcon}}" mode="aspectFit" />
+              <text wx:else class="agent-grid-emoji">{{item.displayIcon}}</text>
             </view>
             <text class="agent-grid-name">{{item.name}}</text>
           </view>

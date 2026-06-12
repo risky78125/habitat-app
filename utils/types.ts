@@ -5,6 +5,7 @@ export interface DisplayAgent extends Agent {
   chipGradient?: string
   cardGradient?: string
   displayCategory?: string
+  isImage?: boolean
 }
 
 export interface DisplayConversation extends Conversation {

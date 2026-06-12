@@ -83,14 +83,16 @@ Component({
 
         const featuredAgent = hotRes.length > 0 ? {
           ...hotRes[0],
-          displayIcon: getAgentIcon(hotRes[0].category),
+          displayIcon: hotRes[0].avatarUrl || hotRes[0].icon || getAgentIcon(hotRes[0].category),
           chipGradient: (catMap[hotRes[0].category] || {}).gradient || DEFAULT_GRADIENT,
+          isImage: !!hotRes[0].avatarUrl,
         } : null
 
         const hotAgents = hotRes.slice(0, PAGE.INDEX_HOT_AGENTS).map(a => ({
           ...a,
-          displayIcon: getAgentIcon(a.category),
+          displayIcon: a.avatarUrl || a.icon || getAgentIcon(a.category),
           chipGradient: catMap[a.category] ? catMap[a.category].gradient : DEFAULT_GRADIENT,
+          isImage: !!a.avatarUrl,
         }))
 
         this.setData({
