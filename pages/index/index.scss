@@ -219,10 +219,10 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 150rpx;
-  height: 150rpx;
-  border-radius: 16rpx;
-  margin-right: 12rpx;
+  padding: 20rpx 0;
+  border-radius: 20rpx;
+  flex: 1;
+  margin-right: 16rpx;
 
   &:last-child { margin-right: 0; }
 }
