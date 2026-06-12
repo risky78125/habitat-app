@@ -66,7 +66,7 @@ Component({
       const cat = this._catMap[a.category]
       return {
         ...a,
-        displayIcon: a.avatarUrl || a.icon || (cat && cat.icon) || FALLBACK_ICON,
+        displayIcon: a.avatarUrl || a.icon || FALLBACK_ICON,
         displayCategory: (cat && cat.name) || a.category,
         cardGradient: (cat && cat.gradient) || DEFAULT_GRADIENT,
         isImage: !!a.avatarUrl,

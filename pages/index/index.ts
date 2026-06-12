@@ -83,14 +83,14 @@ Component({
 
         const featuredAgent = hotRes.length > 0 ? {
           ...hotRes[0],
-          displayIcon: hotRes[0].avatarUrl || hotRes[0].icon || (catMap[hotRes[0].category]?.icon) || FALLBACK_ICON,
+          displayIcon: hotRes[0].avatarUrl || hotRes[0].icon || FALLBACK_ICON,
           chipGradient: (catMap[hotRes[0].category] || {}).gradient || DEFAULT_GRADIENT,
           isImage: !!hotRes[0].avatarUrl,
         } : null
 
         const hotAgents = hotRes.slice(0, PAGE.INDEX_HOT_AGENTS).map(a => ({
           ...a,
-          displayIcon: a.avatarUrl || a.icon || (catMap[a.category]?.icon) || FALLBACK_ICON,
+          displayIcon: a.avatarUrl || a.icon || FALLBACK_ICON,
           chipGradient: catMap[a.category] ? catMap[a.category].gradient : DEFAULT_GRADIENT,
           isImage: !!a.avatarUrl,
         }))
@@ -134,13 +134,12 @@ Component({
       this.setData({ loadingConversations: true })
       try {
         const convRes = await getConversations(1, PAGE.INDEX_CONVERSATION_FETCH)
-        const catMap = this.data._catMap || {}
         const recentConversations = (convRes.records || []).slice(0, PAGE.INDEX_RECENT_CONVERSATIONS).map(c => ({
           ...c,
-          displayIcon: c.agentAvatarUrl || c.agentIcon || (catMap[c.agentCategory || '']?.icon) || FALLBACK_ICON,
+          displayIcon: c.agentAvatarUrl || c.agentIcon || FALLBACK_ICON,
           isImage: !!c.agentAvatarUrl,
           displayTime: formatRelativeTime(c.lastMessageAt),
-          convGradient: catMap[c.agentCategory || '']?.gradient || DEFAULT_GRADIENT,
+          convGradient: DEFAULT_GRADIENT,
         }))
         this.setData({ recentConversations, loadingConversations: false })
       } catch (e) {
