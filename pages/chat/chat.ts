@@ -1,6 +1,6 @@
-import { getConversations, deleteConversation, type Conversation } from '../../utils/api'
+import { getConversations, deleteConversation, getAgentCategories, type Conversation, type Category } from '../../utils/api'
 import type { DisplayConversation } from '../../utils/types'
-import { CATEGORY_META, DEFAULT_GRADIENT } from '../../constants/categories'
+import { DEFAULT_GRADIENT } from '../../constants/categories'
 import { formatRelativeTime } from '../../utils/util'
 import { MSG as M, LOGIN_STATE, FALLBACK_ICON } from '../../config'
 
@@ -46,19 +46,25 @@ Component({
 
       try {
         const page = append ? (this as any)._page || 1 : 1
-        const res = await getConversations(page, PAGE_SIZE)
+        const [res, cats] = await Promise.all([
+          getConversations(page, PAGE_SIZE),
+          getAgentCategories().catch(() => []),
+        ])
         const records = append
           ? [...this.data.conversations, ...(res.records || [])]
           : (res.records || [])
+
+        const catMap: Record<string, Category> = {}
+        cats.forEach((c: Category) => { catMap[c.categoryKey] = c })
 
         ;(this as any)._page = page
         this.setData({
           conversations: records.map(c => ({
             ...c,
             displayTime: formatRelativeTime(c.lastMessageAt),
-            displayIcon: c.agentAvatarUrl || c.agentIcon || (CATEGORY_META[c.agentCategory || '']?.icon) || FALLBACK_ICON,
+            displayIcon: c.agentAvatarUrl || c.agentIcon || (catMap[c.agentCategory || '']?.icon) || FALLBACK_ICON,
             isImage: !!c.agentAvatarUrl,
-            convGradient: CATEGORY_META[c.agentCategory || '']?.gradient || DEFAULT_GRADIENT,
+            convGradient: catMap[c.agentCategory || '']?.gradient || DEFAULT_GRADIENT,
           })),
           hasMore: records.length < (res.total || 0),
           loading: false,

@@ -1,6 +1,6 @@
 import { getHotAgents, getConversations, getUserProfile, getAgentCategories, type Agent, type Conversation, type UserProfile, type Category } from '../../utils/api'
 import type { DisplayAgent, DisplayConversation } from '../../utils/types'
-import { CATEGORY_META, FALLBACK_META, DEFAULT_GRADIENT } from '../../constants/categories'
+import { FALLBACK_META, DEFAULT_GRADIENT } from '../../constants/categories'
 import { formatRelativeTime } from '../../utils/util'
 import { PAGE, DEFAULT_NICKNAME, DEFAULT_AVATAR_INITIAL, FALLBACK_ICON } from '../../config'
 
@@ -10,10 +10,7 @@ interface QuickCategory {
   icon: string
   color: string
   bg: string
-}
-
-function getAgentIcon(category: string): string {
-  return CATEGORY_META[category] ? CATEGORY_META[category].icon : FALLBACK_META.icon
+  isImage?: boolean
 }
 
 Component({
@@ -26,8 +23,10 @@ Component({
     showProfileSetup: false,
     featuredAgent: null as DisplayAgent | null,
     featuredIcon: FALLBACK_ICON,
+    featuredIconIsImage: false,
     hotAgents: [] as DisplayAgent[],
     quickCategories: [] as QuickCategory[],
+    _catMap: {} as Record<string, Category>,
     recentConversations: [] as DisplayConversation[],
     loading: true,
     loadingConversations: false,
@@ -73,31 +72,34 @@ Component({
           icon: c.icon || FALLBACK_META.icon,
           color: c.color || FALLBACK_META.color,
           bg: c.bg || FALLBACK_META.bg,
+          isImage: !!(c.icon && (c.icon.startsWith('http://') || c.icon.startsWith('https://'))),
         }))
-        this.setData({ quickCategories, _categories: cats })
-
-        const hotRes = await getHotAgents()
 
         const catMap: Record<string, Category> = {}
         cats.forEach((c: Category) => { catMap[c.categoryKey] = c })
+        this.setData({ quickCategories, _categories: cats, _catMap: catMap })
+
+        const hotRes = await getHotAgents()
 
         const featuredAgent = hotRes.length > 0 ? {
           ...hotRes[0],
-          displayIcon: hotRes[0].avatarUrl || hotRes[0].icon || getAgentIcon(hotRes[0].category),
+          displayIcon: hotRes[0].avatarUrl || hotRes[0].icon || (catMap[hotRes[0].category]?.icon) || FALLBACK_ICON,
           chipGradient: (catMap[hotRes[0].category] || {}).gradient || DEFAULT_GRADIENT,
           isImage: !!hotRes[0].avatarUrl,
         } : null
 
         const hotAgents = hotRes.slice(0, PAGE.INDEX_HOT_AGENTS).map(a => ({
           ...a,
-          displayIcon: a.avatarUrl || a.icon || getAgentIcon(a.category),
+          displayIcon: a.avatarUrl || a.icon || (catMap[a.category]?.icon) || FALLBACK_ICON,
           chipGradient: catMap[a.category] ? catMap[a.category].gradient : DEFAULT_GRADIENT,
           isImage: !!a.avatarUrl,
         }))
 
+        const featuredIcon = featuredAgent ? (catMap[featuredAgent.category]?.icon || FALLBACK_ICON) : FALLBACK_ICON
         this.setData({
           featuredAgent,
-          featuredIcon: featuredAgent ? getAgentIcon(featuredAgent.category) : FALLBACK_ICON,
+          featuredIcon,
+          featuredIconIsImage: featuredIcon.startsWith('http://') || featuredIcon.startsWith('https://'),
           hotAgents,
           loading: false,
         })
@@ -132,12 +134,13 @@ Component({
       this.setData({ loadingConversations: true })
       try {
         const convRes = await getConversations(1, PAGE.INDEX_CONVERSATION_FETCH)
+        const catMap = this.data._catMap || {}
         const recentConversations = (convRes.records || []).slice(0, PAGE.INDEX_RECENT_CONVERSATIONS).map(c => ({
           ...c,
-          displayIcon: c.agentAvatarUrl || c.agentIcon || (CATEGORY_META[c.agentCategory || '']?.icon) || FALLBACK_ICON,
+          displayIcon: c.agentAvatarUrl || c.agentIcon || (catMap[c.agentCategory || '']?.icon) || FALLBACK_ICON,
           isImage: !!c.agentAvatarUrl,
           displayTime: formatRelativeTime(c.lastMessageAt),
-          convGradient: CATEGORY_META[c.agentCategory || '']?.gradient || DEFAULT_GRADIENT,
+          convGradient: catMap[c.agentCategory || '']?.gradient || DEFAULT_GRADIENT,
         }))
         this.setData({ recentConversations, loadingConversations: false })
       } catch (e) {

@@ -23,7 +23,8 @@
               <text class="featured-badge-text">🔥 今日精选</text>
             </view>
             <view class="featured-icon">
-              <text class="featured-icon-text">{{featuredIcon}}</text>
+              <image wx:if="{{featuredIconIsImage}}" class="featured-icon-img" src="{{featuredIcon}}" mode="aspectFit" />
+              <text wx:else class="featured-icon-text">{{featuredIcon}}</text>
             </view>
           </view>
           <view class="featured-info">
@@ -45,7 +46,8 @@
         </view>
         <view class="quick-grid">
           <view wx:for="{{quickCategories}}" wx:key="key" class="quick-item" style="background: {{item.bg}}" data-category="{{item.key}}" bindtap="onCategoryTap">
-            <text class="quick-icon">{{item.icon}}</text>
+            <image wx:if="{{item.isImage}}" class="quick-icon-img" src="{{item.icon}}" mode="aspectFit" />
+            <text wx:else class="quick-icon">{{item.icon}}</text>
             <text class="quick-label" style="color: {{item.color}}">{{item.label}}</text>
           </view>
         </view>
