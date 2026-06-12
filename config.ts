@@ -76,7 +76,6 @@ export const DEFAULT_AVATAR_INITIAL = '用'
 export const DEFAULT_CHAT_INITIAL = '我'
 export const FALLBACK_ICON = '🤖'
 export const FALLBACK_CATEGORY_ICON = '📌'
-export const FALLBACK_GRADIENT = 'linear-gradient(135deg, #5B6CFF 0%, #8B7FFF 100%)'
 
 // ==================== Login states ====================
 

@@ -1,6 +1,6 @@
 import { getAgents, getAgentCategories, type Agent, type Category } from '../../utils/api'
 import type { DisplayAgent } from '../../utils/types'
-import { DEFAULT_GRADIENT } from '../../constants/categories'
+import { CARD_GRADIENTS } from '../../constants/categories'
 import { PAGE, FALLBACK_ICON } from '../../config'
 
 Component({
@@ -62,13 +62,13 @@ Component({
       } catch (e) {}
     },
 
-    _enrichAgent(a: Agent): DisplayAgent {
+    _enrichAgent(a: Agent, index: number): DisplayAgent {
       const cat = this._catMap[a.category]
       return {
         ...a,
         displayIcon: a.avatarUrl || a.icon || FALLBACK_ICON,
         displayCategory: (cat && cat.name) || a.category,
-        cardGradient: (cat && cat.gradient) || DEFAULT_GRADIENT,
+        cardGradient: CARD_GRADIENTS[index % CARD_GRADIENTS.length],
         isImage: !!a.avatarUrl,
       }
     },
@@ -84,7 +84,7 @@ Component({
           page: append ? page : 1,
           size: PAGE.AGENTS,
         })
-        const items = (res.records || []).map(a => this._enrichAgent(a))
+        const items = (res.records || []).map((a, i) => this._enrichAgent(a, i))
         this.setData({
           agents: append ? [...this.data.agents, ...items] : items,
           total: res.total || 0,

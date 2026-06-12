@@ -28,7 +28,6 @@ export interface Category {
   icon: string
   color: string
   bg: string
-  gradient: string
   sortOrder: number
   status: number
 }
