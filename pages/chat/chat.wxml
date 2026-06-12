@@ -28,7 +28,8 @@
           bindtap="onConversationTap"
         >
           <view class="conv-avatar" style="background: {{item.convGradient}}">
-            <text class="conv-avatar-text">{{item.displayIcon}}</text>
+            <image wx:if="{{item.isImage}}" class="conv-avatar-img" src="{{item.displayIcon}}" mode="aspectFit" />
+            <text wx:else class="conv-avatar-text">{{item.displayIcon}}</text>
           </view>
           <view class="conv-info">
             <view class="conv-row">

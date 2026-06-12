@@ -134,8 +134,10 @@ Component({
         const convRes = await getConversations(1, PAGE.INDEX_CONVERSATION_FETCH)
         const recentConversations = (convRes.records || []).slice(0, PAGE.INDEX_RECENT_CONVERSATIONS).map(c => ({
           ...c,
-          displayIcon: FALLBACK_ICON,
+          displayIcon: c.agentAvatarUrl || c.agentIcon || (CATEGORY_META[c.agentCategory || '']?.icon) || FALLBACK_ICON,
+          isImage: !!c.agentAvatarUrl,
           displayTime: formatRelativeTime(c.lastMessageAt),
+          convGradient: CATEGORY_META[c.agentCategory || '']?.gradient || DEFAULT_GRADIENT,
         }))
         this.setData({ recentConversations, loadingConversations: false })
       } catch (e) {

@@ -1,8 +1,8 @@
 import { getConversations, deleteConversation, type Conversation } from '../../utils/api'
 import type { DisplayConversation } from '../../utils/types'
-import { DEFAULT_GRADIENT } from '../../constants/categories'
+import { CATEGORY_META, DEFAULT_GRADIENT } from '../../constants/categories'
 import { formatRelativeTime } from '../../utils/util'
-import { MSG as M, LOGIN_STATE } from '../../config'
+import { MSG as M, LOGIN_STATE, FALLBACK_ICON } from '../../config'
 
 const PAGE_SIZE = 20
 
@@ -56,8 +56,9 @@ Component({
           conversations: records.map(c => ({
             ...c,
             displayTime: formatRelativeTime(c.lastMessageAt),
-            displayIcon: '🤖',
-            convGradient: DEFAULT_GRADIENT,
+            displayIcon: c.agentAvatarUrl || c.agentIcon || (CATEGORY_META[c.agentCategory || '']?.icon) || FALLBACK_ICON,
+            isImage: !!c.agentAvatarUrl,
+            convGradient: CATEGORY_META[c.agentCategory || '']?.gradient || DEFAULT_GRADIENT,
           })),
           hasMore: records.length < (res.total || 0),
           loading: false,

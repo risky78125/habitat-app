@@ -12,4 +12,5 @@ export interface DisplayConversation extends Conversation {
   displayTime: string
   displayIcon?: string
   convGradient?: string
+  isImage?: boolean
 }

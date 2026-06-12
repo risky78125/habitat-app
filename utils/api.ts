@@ -44,6 +44,10 @@ export interface Conversation {
   status: number
   createdAt: string
   updatedAt: string
+  agentName?: string
+  agentAvatarUrl?: string
+  agentIcon?: string
+  agentCategory?: string
 }
 
 export interface ChatMessage {

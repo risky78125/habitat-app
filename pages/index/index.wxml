@@ -74,8 +74,9 @@
         </view>
         <view class="conv-list">
           <view wx:for="{{recentConversations}}" wx:key="id" class="conv-item" data-id="{{item.id}}" data-agent-id="{{item.agentId}}" bindtap="onConversationTap">
-            <view class="conv-icon">
-              <text class="conv-icon-text">{{item.displayIcon}}</text>
+            <view class="conv-icon" style="background: {{item.convGradient}}">
+              <image wx:if="{{item.isImage}}" class="conv-icon-img" src="{{item.displayIcon}}" mode="aspectFit" />
+              <text wx:else class="conv-icon-text">{{item.displayIcon}}</text>
             </view>
             <view class="conv-info">
               <view class="conv-header">
