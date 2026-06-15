@@ -231,7 +231,7 @@ Component({
       try {
         const [conversation, msgRes] = await Promise.all([
           withTimeout(getConversationDetail(convId), TIMEOUT.CONVERSATION_DETAIL),
-          withTimeout(getMessages(convId), TIMEOUT.MESSAGES_LOAD),
+          withTimeout(getMessages(convId, 1, 1), TIMEOUT.MESSAGES_LOAD), // 先获取总数
         ])
         this.setData({ conversation, conversationId: convId })
 
@@ -239,7 +239,13 @@ Component({
           await this.loadAgent(agentId || conversation.agentId)
         }
 
-        const messages: DisplayMessage[] = (msgRes.records || []).reverse().map(msg => ({
+        // 计算最后一页并加载
+        const total = msgRes.total || 0
+        const pageSize = PAGE.MESSAGES
+        const lastPage = Math.max(1, Math.ceil(total / pageSize))
+        const lastMsgRes = await withTimeout(getMessages(convId, lastPage, pageSize), TIMEOUT.MESSAGES_LOAD)
+
+        const messages: DisplayMessage[] = (lastMsgRes.records || []).map(msg => ({
           id: String(msg.id), role: msg.role as 'user' | 'assistant', content: msg.content,
           time: formatTime(msg.createdAt),
           htmlContent: msg.role === 'assistant' ? md2html(msg.content) : undefined,
