@@ -239,7 +239,7 @@ Component({
           await this.loadAgent(agentId || conversation.agentId)
         }
 
-        const messages: DisplayMessage[] = (msgRes.records || []).map(msg => ({
+        const messages: DisplayMessage[] = (msgRes.records || []).reverse().map(msg => ({
           id: String(msg.id), role: msg.role as 'user' | 'assistant', content: msg.content,
           time: formatTime(msg.createdAt),
           htmlContent: msg.role === 'assistant' ? md2html(msg.content) : undefined,
