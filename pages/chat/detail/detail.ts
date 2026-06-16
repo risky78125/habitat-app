@@ -231,7 +231,7 @@ Component({
       try {
         const [conversation, msgRes] = await Promise.all([
           withTimeout(getConversationDetail(convId), TIMEOUT.CONVERSATION_DETAIL),
-          withTimeout(getMessages(convId, 0, PAGE.MESSAGES), TIMEOUT.MESSAGES_LOAD), // page=0 加载最后一页
+          withTimeout(getMessages(convId), TIMEOUT.MESSAGES_LOAD),
         ])
         this.setData({ conversation, conversationId: convId })
 
