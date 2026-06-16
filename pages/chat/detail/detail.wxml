@@ -12,9 +12,12 @@
     <view slot="center" wx:else><text class="nav-name">对话</text></view>
   </navigation-bar>
 
-  <scroll-view type="list" scroll-y class="messages-area" scroll-into-view="{{scrollIntoViewId}}" show-scrollbar="{{false}}" scroll-with-animation>
+  <scroll-view type="list" scroll-y class="messages-area" scroll-into-view="{{scrollIntoViewId}}" show-scrollbar="{{false}}" scroll-with-animation bindscrolltoupper="onScrollToUpper" upper-threshold="100">
     <view class="messages-pad">
       <loading-dots show="{{loading}}" />
+      <view wx:if="{{_loadingMore}}" class="loading-more">
+        <text class="loading-more-text">加载更多...</text>
+      </view>
 
       <block wx:if="{{!loading}}">
         <view wx:if="{{messages.length === 0}}" class="welcome-prompt">

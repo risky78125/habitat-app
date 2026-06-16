@@ -166,3 +166,13 @@ $bubble-max: 520rpx;
   &.send-btn-active { background: $primary; box-shadow: 0 6rpx 20rpx rgba(91, 108, 255, 0.3); }
 }
 .send-icon-img { width: 36rpx; height: 36rpx; }
+
+/* Loading more */
+.loading-more {
+  text-align: center;
+  padding: 16rpx 0;
+}
+.loading-more-text {
+  font-size: 24rpx;
+  color: $text-secondary;
+}

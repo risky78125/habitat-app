@@ -145,6 +145,9 @@ Component({
     userAvatarInitial: '',
     keyboardHeight: 0,
     _initialized: false,
+    _page: 1,
+    _hasMore: true,
+    _loadingMore: false,
   },
 
   lifetimes: {
@@ -231,7 +234,7 @@ Component({
       try {
         const [conversation, msgRes] = await Promise.all([
           withTimeout(getConversationDetail(convId), TIMEOUT.CONVERSATION_DETAIL),
-          withTimeout(getMessages(convId), TIMEOUT.MESSAGES_LOAD),
+          withTimeout(getMessages(convId, 1), TIMEOUT.MESSAGES_LOAD),
         ])
         this.setData({ conversation, conversationId: convId })
 
@@ -245,12 +248,48 @@ Component({
           htmlContent: msg.role === 'assistant' ? md2html(msg.content) : undefined,
         }))
 
-        this.setData({ messages, loading: false })
+        const hasMore = messages.length >= PAGE.MESSAGES
+        this.setData({ messages, loading: false, _page: 2, _hasMore: hasMore })
         if (messages.length > 0) this.scrollToBottom()
       } catch {
         this.setData({ loading: false })
         wx.showToast({ title: M.CONVERSATION_LOAD_FAIL, icon: 'none' })
       }
+    },
+
+    async loadMore() {
+      const { conversationId, _page, _hasMore, _loadingMore } = this.data as any
+      if (!conversationId || !_hasMore || _loadingMore) return
+
+      this.setData({ _loadingMore: true })
+      try {
+        const msgRes = await withTimeout(getMessages(conversationId, _page), TIMEOUT.MESSAGES_LOAD)
+        const older: DisplayMessage[] = (msgRes.records || []).map((msg: any) => ({
+          id: String(msg.id), role: msg.role as 'user' | 'assistant', content: msg.content,
+          time: formatTime(msg.createdAt),
+          htmlContent: msg.role === 'assistant' ? md2html(msg.content) : undefined,
+        }))
+
+        if (older.length === 0) {
+          this.setData({ _hasMore: false, _loadingMore: false })
+          return
+        }
+
+        const firstOldId = older.length > 0 ? `msg-${older[0].id}` : ''
+        this.setData({
+          messages: [...older, ...this.data.messages],
+          _page: _page + 1,
+          _hasMore: older.length >= PAGE.MESSAGES,
+          _loadingMore: false,
+          scrollIntoViewId: firstOldId,
+        })
+      } catch {
+        this.setData({ _loadingMore: false })
+      }
+    },
+
+    onScrollToUpper() {
+      this.loadMore()
     },
 
     onRetryLogin() {
